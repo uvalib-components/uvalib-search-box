@@ -1,20 +1,41 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-input/paper-input.html">
 
 <!--
 `uvalib-search-box`
 Library Search Box
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="uvalib-search-box">
   <template>
-    <style>
+    <style is="custom-style" include="iron-flex iron-flex-alignment">
       :host {
         display: block;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
+    <div class="">
+      <paper-tabs selected="0" no-bar no-slide noink>
+        <paper-tab>{{virgoSearchTabText}}</paper-tab>
+        <template is="dom-if" if="{{siteSearch}}">
+          <paper-tab link>
+            <a href="{{siteSearchUrl}}" class="link" tabindex="-1">{{siteSearchTabText}}</a>
+          </paper-tab>
+        </template>
+      </paper-tabs>
+      <iron-pages selected="0">
+        <paper-input label="" placeholder="{{searchBoxPlaceholder}}"></paper-input>
+        <template is="dom-if" if={{advancedSearch}}>
+          <div class="advancedSearch">
+            Content for Virgo search goes here.
+          </div>
+        </template>
+      </iron-pages>
+    </div>
   </template>
 
   <script>
@@ -23,10 +44,80 @@ Library Search Box
       is: 'uvalib-search-box',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'uvalib-search-box',
+        advancedArticleSearch: {
+          type: Boolean,
+          value: false
         },
+
+        advancedArticleSearchText: {
+          type: String,
+          value: 'Article Advanced Search'
+        },
+
+        advancedArticleSearchUrl: {
+          type: String,
+          value: 'http://search.lib.virginia.edu/articles/advanced?catalog_select=articles'
+        },
+
+        advancedCatalogSearch: {
+          type: Boolean,
+          value: false
+        },
+
+        advancedCatalogSearchText: {
+          type: String,
+          value: 'Catalog Advanced Search'
+        },
+
+        advancedCatalogSearchUrl: {
+          type: String,
+          value: 'http://search.lib.virginia.edu/advanced?catalog_select=catalog'
+          },
+
+        advancedSearch: {
+          type: Boolean,
+          computed: '_either(advancedSearch,siteSearch)'
+        },
+
+        searchBoxPlaceholder: {
+          type: String,
+          value: 'Search Virgo for books, articles, digital materials, and more.',
+        },
+
+        siteSearch: {
+          type: Boolean,
+          value: false
+        },
+
+        siteSearchTabText: {
+          type: String,
+          value: 'Site Search',
+        },
+
+        siteSearchUrl: {
+          type: String,
+          value: 'http://www.library.virginia.edu/sitesearch/',
+        },
+
+        virgoSearchTabText: {
+          type: String,
+          value: 'UVA Libraries Search'
+        },
+
+        virgoSearchTabUrl: {
+          type: String,
+          value: 'http://search.lib.virginia.edu/catalog'
+        },
+      },
+
+      /**
+       * Returns the boolean result for **a OR b**.
+       *
+       * @param {Boolean} a
+       * @param {Boolean} a
+       */
+      _either: function(a,b) {
+        return (a || b);
       },
 
     });

@@ -3,6 +3,7 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
 
 <!--
 `uvalib-search-box`
@@ -28,12 +29,28 @@ Library Search Box
         </template>
       </paper-tabs>
       <iron-pages selected="0">
-        <paper-input label="" placeholder="{{searchBoxPlaceholder}}"></paper-input>
-        <template is="dom-if" if={{advancedSearch}}>
+        <paper-input name="q" label="" placeholder="{{searchBoxPlaceholder}}"><paper-button>Search</paper-button></paper-input>
+
+        <template is="dom-if" if="{{_advancedSearch}}">
+
           <div class="advancedSearch">
-            Content for Virgo search goes here.
+
+            <template is="dom-if" if="{{advancedCatalogSearch}}">
+              <div class="searchLink">
+                <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
+              </div>
+            </template>
+
+            <template is="dom-if" if="{{advancedArticleSearch}}">
+              <div class="searchLink">
+                <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
+              </div>
+            </template>
+
           </div>
+
         </template>
+
       </iron-pages>
     </div>
   </template>
@@ -56,7 +73,7 @@ Library Search Box
 
         advancedArticleSearchUrl: {
           type: String,
-          value: 'http://search.lib.virginia.edu/articles/advanced?catalog_select=articles'
+          value: '//search.lib.virginia.edu/articles/advanced?catalog_select=articles'
         },
 
         advancedCatalogSearch: {
@@ -71,12 +88,12 @@ Library Search Box
 
         advancedCatalogSearchUrl: {
           type: String,
-          value: 'http://search.lib.virginia.edu/advanced?catalog_select=catalog'
+          value: '//search.lib.virginia.edu/advanced?catalog_select=catalog'
           },
 
-        advancedSearch: {
+        _advancedSearch: {
           type: Boolean,
-          computed: '_either(advancedSearch,siteSearch)'
+          computed: '_either(advancedCatalogSearch,advancedArticleSearch)'
         },
 
         searchBoxPlaceholder: {
@@ -96,7 +113,7 @@ Library Search Box
 
         siteSearchUrl: {
           type: String,
-          value: 'http://www.library.virginia.edu/sitesearch/',
+          value: '//www.library.virginia.edu/sitesearch/',
         },
 
         virgoSearchTabText: {
@@ -106,7 +123,7 @@ Library Search Box
 
         virgoSearchTabUrl: {
           type: String,
-          value: 'http://search.lib.virginia.edu/catalog'
+          value: '//search.lib.virginia.edu/catalog'
         },
       },
 

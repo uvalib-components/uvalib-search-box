@@ -14,43 +14,54 @@ Library Search Box
 
 <dom-module id="uvalib-search-box">
   <template>
-    <style is="custom-style" include="iron-flex iron-flex-alignment">
+    <style is="custom-style">
       :host {
         display: block;
       }
+      paper-input, paper-button {
+        display: inline;
+      }
+      .advancedSearch {
+        padding-top: 10px;
+      }
+      .searchLink {
+        float: left;
+        padding-right: 20px;
+      }
     </style>
     <div class="">
-      <paper-tabs selected="0" no-bar no-slide noink>
+      <paper-tabs selected="{{selectedTab}}" no-bar no-slide noink>
         <paper-tab>{{virgoSearchTabText}}</paper-tab>
         <template is="dom-if" if="{{siteSearch}}">
-          <paper-tab link>
-            <a href="{{siteSearchUrl}}" class="link" tabindex="-1">{{siteSearchTabText}}</a>
-          </paper-tab>
+          <paper-tab>{{siteSearchTabText}}</paper-tab>
         </template>
       </paper-tabs>
-      <iron-pages selected="0">
-        <paper-input name="q" label="" placeholder="{{searchBoxPlaceholder}}"><paper-button>Search</paper-button></paper-input>
+      <iron-pages selected="{{selectedTab}}">
+        <div id="virgo">
+          <form is="iron-form" method="get" action="{{virgoSearchTabUrl}}" id="virgoSearchForm">
+            <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}"></paper-input><paper-button>Search</paper-button>
+          </form>
+          <template is="dom-if" if="{{_advancedSearch}}">
+            <div class="advancedSearch">
+              <template is="dom-if" if="{{advancedCatalogSearch}}">
+                <div class="searchLink">
+                  <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
+                </div>
+              </template>
+              <template is="dom-if" if="{{advancedArticleSearch}}">
+                <div class="searchLink">
+                  <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
 
-        <template is="dom-if" if="{{_advancedSearch}}">
-
-          <div class="advancedSearch">
-
-            <template is="dom-if" if="{{advancedCatalogSearch}}">
-              <div class="searchLink">
-                <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
-              </div>
-            </template>
-
-            <template is="dom-if" if="{{advancedArticleSearch}}">
-              <div class="searchLink">
-                <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
-              </div>
-            </template>
-
-          </div>
-
-        </template>
-
+        <div id="site">
+          <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
+            <paper-input id="s" name="s" label="" placeholder="{{searchSitePlaceholder}}"></paper-input><paper-button>Search</paper-button>
+          </form>
+        </div>
       </iron-pages>
     </div>
   </template>
@@ -61,66 +72,121 @@ Library Search Box
       is: 'uvalib-search-box',
 
       properties: {
+        /**
+         * Indicates whether to display advanced article search link
+         */
         advancedArticleSearch: {
           type: Boolean,
           value: false
         },
 
+        /**
+         * Text to display for article search hyperlink.
+         */
         advancedArticleSearchText: {
           type: String,
           value: 'Article Advanced Search'
         },
 
+        /**
+         * URL for accessing the advanced article search features.
+         */
         advancedArticleSearchUrl: {
           type: String,
           value: '//search.lib.virginia.edu/articles/advanced?catalog_select=articles'
         },
 
+        /**
+         * Indicates whether to display advanced catalog search link
+         */
         advancedCatalogSearch: {
           type: Boolean,
           value: false
         },
 
+        /**
+         * Text to display for catalog search hyperlink.
+         */
         advancedCatalogSearchText: {
           type: String,
           value: 'Catalog Advanced Search'
         },
 
+        /**
+         * URL for accessing the advanced catalog search features.
+         */
         advancedCatalogSearchUrl: {
           type: String,
           value: '//search.lib.virginia.edu/advanced?catalog_select=catalog'
           },
 
+        /**
+         * Indicates if any advanced search option should be displayed.
+         */
         _advancedSearch: {
           type: Boolean,
           computed: '_either(advancedCatalogSearch,advancedArticleSearch)'
         },
 
-        searchBoxPlaceholder: {
+        /**
+         * Placeholder text to display in the Virgo search input text box.
+         */
+        searchVirgoPlaceholder: {
           type: String,
           value: 'Search Virgo for books, articles, digital materials, and more.',
         },
 
+        /**
+         * Placeholder text to display in the site search input text box.
+         */
+        searchSitePlaceholder: {
+          type: String,
+          value: 'Search website.',
+        },
+
+        /**
+         * Tab selected for display.
+         */
+        selectedTab: {
+          type: String,
+          value: '0'
+        },
+
+        /**
+         * Indicates whether to display site search tab.
+         */
         siteSearch: {
           type: Boolean,
           value: false
         },
 
+        /**
+         * Text to display in site search tab.
+         */
         siteSearchTabText: {
           type: String,
           value: 'Site Search',
         },
 
+        /**
+         * URL used to search the site.
+         */
         siteSearchUrl: {
           type: String,
           value: '//www.library.virginia.edu/sitesearch/',
         },
 
+        /**
+         * Text to display in Virgo search tab.
+         */
         virgoSearchTabText: {
           type: String,
-          value: 'UVA Libraries Search'
+          value: 'Virgo'
         },
 
+        /**
+         * URL used to search Virgo.
+         */
         virgoSearchTabUrl: {
           type: String,
           value: '//search.lib.virginia.edu/catalog'

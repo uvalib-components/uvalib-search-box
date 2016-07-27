@@ -17,20 +17,51 @@ Library Search Box
     <style is="custom-style">
       :host {
         display: block;
+        font-family: var(--uvalib-search-box-font-family,--font-primary);
+        --paper-input-container-input {
+          background: var(--color-white);
+        }
       }
-      paper-input, paper-button {
-        display: inline;
+      paper-input {
+        --paper-input-container-input-color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
+        --paper-input-container-color: var(--uvalib-search-box-tab-color,--color-medium-gray);
+        --paper-input-container-focus-color: var(--uvalib-search-box-tab-color,--color-medium-gray);
+      }
+      paper-tabs {
+        width: 40%;
+        background-color: var(--uvalib-search-box-tab-color,--color-light-blue);
+        color: var(--uvalib-search-box-tab-text-color,--color-primary-blue);
+      }
+      iron-pages {
+        background-color: var(--uvalib-search-box-bkgrd-color,--color-primary-blue);
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 65px;
+        padding-bottom: 30px;
+      }
+      paper-button {
+        background-color: var(--uvalib-search-box-btn-bkgrd-color,--color-light-blue);
+        color: var(--uvalib-search-box-btn-text-color,--color-secondary-blue);
+        line-height: 24px;
+      }
+      paper-tab.iron-selected {
+        background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
+        color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
       }
       .advancedSearch {
         padding-top: 10px;
+        padding-bottom: 25px;
       }
       .searchLink {
         float: left;
         padding-right: 20px;
       }
+      .searchLink a {
+        color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
+      }
     </style>
     <div class="">
-      <paper-tabs selected="{{selectedTab}}" no-bar no-slide noink>
+      <paper-tabs selected="{{selectedTab}}" no-bar no-slide>
         <paper-tab>{{virgoSearchTabText}}</paper-tab>
         <template is="dom-if" if="{{siteSearch}}">
           <paper-tab>{{siteSearchTabText}}</paper-tab>
@@ -39,10 +70,13 @@ Library Search Box
       <iron-pages selected="{{selectedTab}}">
         <div id="virgo">
           <form is="iron-form" method="get" action="{{virgoSearchTabUrl}}" id="virgoSearchForm">
-            <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}"></paper-input><paper-button>Search</paper-button>
+            <input type="hidden" name="portal" value="all">
+            <input type="hidden" name="catalog_select" value="all">
+            <input type="hidden" name="sort" value="date_received_facet desc">
+            <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}"><paper-button suffix onclick="submitCatalogSearch()">Search</paper-button></paper-input>
           </form>
-          <template is="dom-if" if="{{_advancedSearch}}">
-            <div class="advancedSearch">
+          <div class="advancedSearch">
+            <template is="dom-if" if="{{_advancedSearch}}">
               <template is="dom-if" if="{{advancedCatalogSearch}}">
                 <div class="searchLink">
                   <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
@@ -53,13 +87,13 @@ Library Search Box
                   <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
                 </div>
               </template>
-            </div>
-          </template>
+            </template>
+          </div>
         </div>
 
         <div id="site">
           <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
-            <paper-input id="s" name="s" label="" placeholder="{{searchSitePlaceholder}}"></paper-input><paper-button>Search</paper-button>
+            <paper-input id="s" name="s" label="" placeholder="{{searchSitePlaceholder}}"><paper-button suffix onclick="submitSiteSearch()">Search</paper-button></paper-input>
           </form>
         </div>
       </iron-pages>
@@ -141,7 +175,7 @@ Library Search Box
          */
         searchSitePlaceholder: {
           type: String,
-          value: 'Search website.',
+          value: 'Search the UVA Library website.',
         },
 
         /**
@@ -171,9 +205,9 @@ Library Search Box
         /**
          * URL used to search the site.
          */
-        siteSearchUrl: {
+        siteSearchTabUrl: {
           type: String,
-          value: '//www.library.virginia.edu/sitesearch/',
+          value: '//www.library.virginia.edu/',
         },
 
         /**
@@ -204,5 +238,20 @@ Library Search Box
       },
 
     });
+
+    /**
+     * Submits the Virgo search form.
+     */
+    function submitCatalogSearch() {
+      document.getElementById('virgoSearchForm').submit();
+    };
+
+    /**
+     * Submits the Library site search form.
+     */
+    function submitSiteSearch() {
+      document.getElementById('siteSearchForm').submit();
+    };
+
   </script>
 </dom-module>

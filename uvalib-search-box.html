@@ -76,17 +76,13 @@ Library Search Box
             <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}"><paper-button suffix onclick="submitCatalogSearch()">Search</paper-button></paper-input>
           </form>
           <div class="advancedSearch">
-            <template is="dom-if" if="{{_advancedSearch}}">
-              <template is="dom-if" if="{{advancedCatalogSearch}}">
-                <div class="searchLink">
-                  <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
-                </div>
-              </template>
-              <template is="dom-if" if="{{advancedArticleSearch}}">
-                <div class="searchLink">
-                  <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
-                </div>
-              </template>
+            <template is="dom-if" if="{{advancedSearch}}">
+              <div class="searchLink">
+                <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
+              </div>
+              <div class="searchLink">
+                <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
+              </div>
             </template>
           </div>
         </div>
@@ -107,9 +103,9 @@ Library Search Box
 
       properties: {
         /**
-         * Indicates whether to display advanced article search link
+         * Indicates whether to display advanced search links
          */
-        advancedArticleSearch: {
+        advancedSearch: {
           type: Boolean,
           value: false
         },
@@ -131,14 +127,6 @@ Library Search Box
         },
 
         /**
-         * Indicates whether to display advanced catalog search link
-         */
-        advancedCatalogSearch: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
          * Text to display for catalog search hyperlink.
          */
         advancedCatalogSearchText: {
@@ -153,14 +141,6 @@ Library Search Box
           type: String,
           value: '//search.lib.virginia.edu/advanced?catalog_select=catalog'
           },
-
-        /**
-         * Indicates if any advanced search option should be displayed.
-         */
-        _advancedSearch: {
-          type: Boolean,
-          computed: '_either(advancedCatalogSearch,advancedArticleSearch)'
-        },
 
         /**
          * Placeholder text to display in the Virgo search input text box.
@@ -225,16 +205,6 @@ Library Search Box
           type: String,
           value: '//search.lib.virginia.edu/catalog'
         },
-      },
-
-      /**
-       * Returns the boolean result for **a OR b**.
-       *
-       * @param {Boolean} a
-       * @param {Boolean} a
-       */
-      _either: function(a,b) {
-        return (a || b);
       },
 
     });

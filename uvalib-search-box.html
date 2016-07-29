@@ -78,9 +78,9 @@ Custom property | Description | Default
     </style>
     <div class="">
       <paper-tabs selected="{{selectedTab}}" no-bar no-slide>
-        <paper-tab>{{virgoSearchTabText}}</paper-tab>
+        <paper-tab tabindex="0">{{virgoSearchTabText}}</paper-tab>
         <template is="dom-if" if="{{siteSearch}}">
-          <paper-tab>{{siteSearchTabText}}</paper-tab>
+          <paper-tab tabindex="0">{{siteSearchTabText}}</paper-tab>
         </template>
       </paper-tabs>
       <iron-pages selected="{{selectedTab}}">
@@ -89,15 +89,17 @@ Custom property | Description | Default
             <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">
             <input type="hidden" name="sort" value="date_received_facet desc">
-            <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}"><paper-button suffix onclick="submitCatalogSearch()">Search</paper-button></paper-input>
+            <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
+              <paper-button suffix onclick="submitCatalogSearch()" tabindex="0">Search</paper-button>
+            </paper-input>
           </form>
           <div class="advancedSearch">
             <template is="dom-if" if="{{advancedSearch}}">
               <div class="searchLink">
-                <a href="{{advancedCatalogSearchUrl}}">{{advancedCatalogSearchText}}</a>
+                <a href="{{advancedCatalogSearchUrl}}" tabindex="0">{{advancedCatalogSearchText}}</a>
               </div>
               <div class="searchLink">
-                <a href="{{advancedArticleSearchUrl}}">{{advancedArticleSearchText}}</a>
+                <a href="{{advancedArticleSearchUrl}}" tabindex="0">{{advancedArticleSearchText}}</a>
               </div>
             </template>
           </div>
@@ -105,7 +107,9 @@ Custom property | Description | Default
 
         <div id="site">
           <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
-            <paper-input id="s" name="s" label="" placeholder="{{searchSitePlaceholder}}"><paper-button suffix onclick="submitSiteSearch()">Search</paper-button></paper-input>
+            <paper-input id="s" name="s" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
+              <paper-button suffix onclick="submitSiteSearch()"tabindex="0">Search</paper-button>
+            </paper-input>
           </form>
         </div>
       </iron-pages>

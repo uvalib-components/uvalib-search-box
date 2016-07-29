@@ -9,6 +9,22 @@
 `uvalib-search-box`
 Library Search Box
 
+### Styling
+
+The following custom properties are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--uvalib-search-box-font-family` | Font family used for search box content | `Based on uvalib-theme --font-primary`
+`--uvalib-search-box-selected-tab-color` | Color of selected tab | `Based on uvalib-theme --color-primary-blue`
+`--uvalib-search-box-selected-tab-text-color` | Color of selected tab text | `Based on uvalib-theme --color-white`
+`--uvalib-search-box-tab-color` | Color of unselected tabs | `Based on uvalib-theme --color-light-blue`
+`--uvalib-search-box-tab-text-color` | Color of unselected tab text | `Based on uvalib-theme --color-primary-blue`
+`--uvalib-search-box-bkgrd-color` | Background color of search box | `Based on uvalib-theme --color-primary-blue`
+`--uvalib-search-box-btn-bkgrd-color` | Background color of search button | `Based on uvalib-theme --color-light-blue`
+`--uvalib-search-box-btn-text-color` | Color of search button label text | `Based on uvalib-theme --color-secondary-blue`
+`--uvalib-search-box-advanced-text-color` | Color of advanced search options | `Based on uvalib-theme --color-white`
+
 @demo demo/index.html
 -->
 
@@ -57,7 +73,7 @@ Library Search Box
         padding-right: 20px;
       }
       .searchLink a {
-        color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
+        color: var(--uvalib-search-box-advanced-text-color,--color-white);
       }
     </style>
     <div class="">

@@ -107,7 +107,7 @@ Custom property | Description | Default
 
         <div id="site">
           <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
-            <paper-input id="s" name="s" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
+            <paper-input id="q" name="q" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
               <paper-button suffix onclick="submitSiteSearch()"tabindex="0">Search</paper-button>
             </paper-input>
           </form>
@@ -207,7 +207,7 @@ Custom property | Description | Default
          */
         siteSearchTabUrl: {
           type: String,
-          value: '//www.library.virginia.edu/',
+          value: '//www.library.virginia.edu/sitesearch/',
         },
 
         /**

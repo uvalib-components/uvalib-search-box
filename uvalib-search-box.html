@@ -4,6 +4,8 @@
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../uvalib-theme/uvalib-icons.html">
 
 <!--
 `uvalib-search-box`
@@ -39,34 +41,52 @@ Custom property | Description | Default
         }
       }
       paper-input {
-        --paper-input-container-input-color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
-        --paper-input-container-color: var(--uvalib-search-box-tab-color,--color-medium-gray);
-        --paper-input-container-focus-color: var(--uvalib-search-box-tab-color,--color-medium-gray);
+        clear: both;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .search-field {
+        --paper-input-container: {
+          background-color: white;
+          color: var(--color-text-gray);
+          padding: 0;
+          border-radius: 3px;
+        }
+        --paper-input-container-input: {
+          padding-left: 15px;
+        }
       }
       paper-tabs {
         width: 40%;
-        background-color: var(--uvalib-search-box-tab-color,--color-light-blue);
-        color: var(--uvalib-search-box-tab-text-color,--color-primary-blue);
+        background-color: var(--uvalib-search-box-tab-color,--color-secondary-blue);
+        color: var(--uvalib-search-box-tab-text-color,--color-light-blue);
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
       }
       iron-pages {
         background-color: var(--uvalib-search-box-bkgrd-color,--color-primary-blue);
         margin-left: auto;
         margin-right: auto;
-        padding-top: 65px;
+        padding-top: 15px;
         padding-bottom: 30px;
+        border-top-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
       }
       paper-button {
-        background-color: var(--uvalib-search-box-btn-bkgrd-color,--color-light-blue);
-        color: var(--uvalib-search-box-btn-text-color,--color-secondary-blue);
-        line-height: 24px;
+        background-color: var(--uvalib-search-box-btn-bkgrd-color,--color-text-blue);
+        color: var(--uvalib-search-box-btn-text-color,--color-white);
+        margin-right: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
       }
       paper-tab.iron-selected {
         background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
         color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
       }
       .advancedSearch {
-        padding-top: 10px;
-        padding-bottom: 25px;
+        float: right;
+        padding-bottom: 10px;
       }
       .searchLink {
         float: left;
@@ -74,6 +94,14 @@ Custom property | Description | Default
       }
       .searchLink a {
         color: var(--uvalib-search-box-advanced-text-color,--color-white);
+        text-decoration: none;
+      }
+      iron-icon {
+        width: 12px;
+        height: 12px;
+      }
+      #site {
+        padding-top: 10px;
       }
     </style>
     <div class="">
@@ -85,29 +113,29 @@ Custom property | Description | Default
       </paper-tabs>
       <iron-pages selected="{{selectedTab}}">
         <div id="virgo">
+          <div class="advancedSearch">
+            <template is="dom-if" if="{{advancedSearch}}">
+              <div class="searchLink">
+                <a href="{{advancedCatalogSearchUrl}}" tabindex="0">{{advancedCatalogSearchText}} <iron-icon icon="chevron-right"></iron-icon></a>
+              </div>
+              <div class="searchLink">
+                <a href="{{advancedArticleSearchUrl}}" tabindex="0">{{advancedArticleSearchText}} <iron-icon icon="chevron-right"></iron-icon></a>
+              </div>
+            </template>
+          </div>
           <form is="iron-form" method="get" action="{{virgoSearchTabUrl}}" id="virgoSearchForm">
             <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">
             <input type="hidden" name="sort" value="date_received_facet desc">
-            <paper-input id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
+            <paper-input no-label-float class="search-field" id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
               <paper-button suffix onclick="submitCatalogSearch()" tabindex="0">Search</paper-button>
             </paper-input>
           </form>
-          <div class="advancedSearch">
-            <template is="dom-if" if="{{advancedSearch}}">
-              <div class="searchLink">
-                <a href="{{advancedCatalogSearchUrl}}" tabindex="0">{{advancedCatalogSearchText}}</a>
-              </div>
-              <div class="searchLink">
-                <a href="{{advancedArticleSearchUrl}}" tabindex="0">{{advancedArticleSearchText}}</a>
-              </div>
-            </template>
-          </div>
         </div>
 
         <div id="site">
           <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
-            <paper-input id="q" name="q" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
+            <paper-input no-label-float class="search-field" id="q" name="q" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
               <paper-button suffix onclick="submitSiteSearch()"tabindex="0">Search</paper-button>
             </paper-input>
           </form>
@@ -135,7 +163,7 @@ Custom property | Description | Default
          */
         advancedArticleSearchText: {
           type: String,
-          value: 'Article Advanced Search'
+          value: 'Article Advanced'
         },
 
         /**
@@ -151,7 +179,7 @@ Custom property | Description | Default
          */
         advancedCatalogSearchText: {
           type: String,
-          value: 'Catalog Advanced Search'
+          value: 'Catalog Advanced'
         },
 
         /**

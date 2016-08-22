@@ -295,7 +295,9 @@ Custom property | Description | Default
           value: false
         }
       },
-
+      focusTextbox: function() {
+        this.querySelector('iron-pages > div.iron-selected paper-input').focus();
+      }
     });
 
     /**
@@ -311,10 +313,6 @@ Custom property | Description | Default
     function submitSiteSearch() {
       document.getElementById('siteSearchForm').submit();
     };
-
-    function focusTextbox() {
-      this.querySelector('iron-pages > div.iron-selected paper-input').focus();
-    }
 
   </script>
 </dom-module>

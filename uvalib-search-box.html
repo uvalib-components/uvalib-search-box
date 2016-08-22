@@ -104,7 +104,7 @@ Custom property | Description | Default
         padding-top: 10px;
       }
     </style>
-    <div class="">
+    <div class="" role="search">
       <paper-tabs selected="{{selectedTab}}" no-bar no-slide autoselect>
         <paper-tab tabindex="0">{{virgoSearchTabText}}</paper-tab>
         <template is="dom-if" if="{{siteSearch}}">
@@ -270,6 +270,10 @@ Custom property | Description | Default
     function submitSiteSearch() {
       document.getElementById('siteSearchForm').submit();
     };
+
+    function focus() {
+      this.querySelector('iron-pages > div.iron-selected paper-input').focus();
+    }
 
   </script>
 </dom-module>

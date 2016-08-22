@@ -125,7 +125,7 @@ Custom property | Description | Default
           <paper-tab tabindex="0">{{virgoSearchTabText}}</paper-tab>
             <paper-tab tabindex="0">{{siteSearchTabText}}</paper-tab>
         </paper-tabs>
-        <iron-pages selected="{{selectedTab}}">
+        <iron-pages id="pages" selected="{{selectedTab}}">
           <div id="virgo">
             <div class="advancedSearch">
               <template is="dom-if" if="{{advancedSearch}}">

@@ -6,7 +6,7 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
-<link rel="import" href="../uvalib-theme/uvalib-theme.html">
+<link rel="import" href="../uvalib-theme/uvalib-common-styles.html">
 <link rel="import" href="../uvalib-theme/uvalib-icons.html">
 
 <!--
@@ -34,7 +34,7 @@ Custom property | Description | Default
 
 <dom-module id="uvalib-search-box">
   <template>
-    <style is="custom-style">
+    <style is="custom-style" include="uvalib-theme">
       :host {
         display: block;
         font-family: var(--uvalib-search-box-font-family,--font-primary);

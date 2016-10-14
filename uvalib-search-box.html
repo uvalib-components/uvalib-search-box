@@ -3,9 +3,8 @@
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../paper-button/paper-button.html">
-<link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../iron-icon/iron-icon.html">
+<link rel="import" href="../uvalib-button/uvalib-button.html">
+  <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../uvalib-theme/uvalib-theme.html">
 <link rel="import" href="../uvalib-theme/uvalib-icons.html">
 
@@ -41,26 +40,7 @@ Custom property | Description | Default
         --paper-input-container-input {
           background: var(--color-white);
         }
-      }
-      paper-input {
-        clear: both;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-      .search-field {
-        --paper-input-container: {
-          background-color: white;
-          color: var(--color-text-gray);
-          padding: 0;
-          border-radius: 3px;
-        }
-        --paper-input-container-input: {
-          padding-left: 15px;
-        }
-        --paper-icon-button: {
-          color: var(--color-text-gray);
-          padding-right: 20px;
-        }
+        --paper-input-container-focus-color: var(--color-accessibility-outline);
       }
       paper-tabs {
         width: 40%;
@@ -85,12 +65,17 @@ Custom property | Description | Default
         padding-bottom: 20px;
         @apply(--layout-justify);
       }
-      paper-button {
+      uvalib-button {
         background-color: var(--uvalib-search-box-btn-bkgrd-color,--color-text-blue);
         color: var(--uvalib-search-box-btn-text-color,--color-white);
-        margin-right: 0;
+        margin: 0;
+        padding: 0;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        display: inline-block;
+      }
+      uvalib-button span {
+        font-weight: bold;
       }
       paper-tab.iron-selected {
         background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
@@ -116,6 +101,29 @@ Custom property | Description | Default
         padding-top: 10px;
       }
       .search-field {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        width: 90%;
+        --paper-input-container: {
+          background-color: white;
+          color: var(--color-text-gray);
+          border-radius: 3px;
+        }
+        --paper-input-container-underline: {
+          background-color: var(--color-white);
+        }
+        --paper-input-container-input: {
+          padding-left: 15px;
+        }
+      }
+      .searchbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 95%;
+      }
+      #single-search .searchbox {
+        width: 96%;
       }
     </style>
 
@@ -141,18 +149,21 @@ Custom property | Description | Default
               <input type="hidden" name="portal" value="all">
               <input type="hidden" name="catalog_select" value="all">
               <input type="hidden" name="sort" value="date_received_facet desc">
-              <paper-input no-label-float class="search-field" id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
-                <paper-button suffix onclick="submitCatalogSearch()" alt="Search Virgo" tabindex="0">Search</paper-button>
-              </paper-input>
+              <div class="searchbox">
+                <paper-input no-label-float class="search-field" id="q1" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
+                </paper-input>
+                <uvalib-button class="search" onclick="submitCatalogSearch()" alt="Search Virgo"><span>Search</span></uvalib-button>
+              </div>
             </form>
           </div>
           <div id="site">
             <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
-              <paper-input no-label-float class="search-field" id="q" name="q" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
-                <paper-button suffix onclick="submitSiteSearch()" alt="Search Website" tabindex="0">Search</paper-button>
-              </paper-input>
+              <div class="searchbox">
+                <paper-input no-label-float class="search-field" id="q2" name="q" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
+                </paper-input>
+                <uvalib-button onclick="submitSiteSearch()" alt="Search Website"><span>Search</span></uvalib-button>
+              </div>
             </form>
-
           </div>
         </iron-pages>
       </template>
@@ -162,14 +173,16 @@ Custom property | Description | Default
             <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">
             <input type="hidden" name="sort" value="date_received_facet desc">
-            <paper-input no-label-float class="search-field" id="q" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
+            <div class="searchbox">
+              <paper-input no-label-float class="search-field" id="q3" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
+              </paper-input>
               <template is="dom-if" if="{{!useIconForButton}}">
-                <paper-button suffix onclick="submitCatalogSearch()" alt="Search Virgo" tabindex="0">Search</paper-button>
+                <uvalib-button onclick="submitCatalogSearch()" alt="Search Virgo"><span>Search</span></uvalib-button>
               </template>
               <template is="dom-if" if="{{useIconForButton}}">
-                <paper-icon-button suffix alt="Search Virgo" onclick="submitCatalogSearch()" icon="search" tabindex="0"></paper-icon-button>
+                <uvalib-button alt="Search Virgo" onclick="submitCatalogSearch()" icon="search"></uvalib-button>
               </template>
-            </paper-input>
+            </div>
           </form>
         </div>
       </template>
@@ -183,6 +196,30 @@ Custom property | Description | Default
       is: 'uvalib-search-box',
 
       properties: {
+        _searchVirgoBtn: {
+          type: Object,
+          value: function() {
+            return this.querySelector('searchvirgobtn');
+          }
+        },
+        _searchSiteBtn: {
+          type: Object,
+          value: function() {
+            return this.querySelector('searchsitebtn');
+          }
+        },
+        _searchVirgoBtn2: {
+          type: Object,
+          value: function() {
+            return this.querySelector('searchvirgobtn2');
+          }
+        },
+        _searchVirgoIcon: {
+          type: Object,
+          value: function() {
+            return this.querySelector('searchvirgoicon');
+          }
+        },
         /**
          * Indicates whether to display advanced search links
          */
@@ -295,8 +332,25 @@ Custom property | Description | Default
           value: false
         }
       },
+
       focusTextbox: function() {
         this.querySelector('iron-pages > div.iron-selected paper-input').focus();
+      },
+
+      _jumpToSearchInputText: function(e) {
+        e.preventDefault();
+        console.log('jumpToSearchInputText');
+        console.log(e.detail);
+        var x = this.querySelector('iron-pages > div.iron-selected paper-input');
+        console.log(x);
+        this.querySelector('iron-pages > div.iron-selected paper-input').focus();
+      },
+
+      _jumpToVirgoSearchInput: function(e) {
+        console.log('jumpToVirgoSearchInput');
+        console.log(e.detail);
+        e.preventDefault();
+        this.querySelector('#single-search > paper-input').focus();
       }
     });
 

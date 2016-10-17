@@ -37,10 +37,11 @@ Custom property | Description | Default
       :host {
         display: block;
         font-family: var(--uvalib-search-box-font-family,--font-primary);
-        --paper-input-container-input {
-          background: var(--color-white);
-        }
         --paper-input-container-focus-color: var(--color-accessibility-outline);
+      }
+      iron-icon {
+        width: 12px;
+        height: 12px;
       }
       paper-tabs {
         width: 40%;
@@ -48,6 +49,10 @@ Custom property | Description | Default
         color: var(--uvalib-search-box-tab-text-color,--color-light-blue);
         border-top-left-radius: 3px;
         border-top-right-radius: 3px;
+      }
+      paper-tab.iron-selected {
+        background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
+        color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
       }
       #single-search,
       iron-pages {
@@ -60,26 +65,20 @@ Custom property | Description | Default
         border-bottom-left-radius: 3px;
         border-bottom-right-radius: 3px;
       }
-      #single-search {
-        padding-top: 20px;
-        padding-bottom: 20px;
-        @apply(--layout-justify);
-      }
       uvalib-button {
         background-color: var(--uvalib-search-box-btn-bkgrd-color,--color-text-blue);
         color: var(--uvalib-search-box-btn-text-color,--color-white);
-        margin: 0;
-        padding: 0;
+        margin: 0px;
+        padding: 0px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
         display: inline-block;
+        line-height: 20px;
       }
       uvalib-button span {
         font-weight: bold;
-      }
-      paper-tab.iron-selected {
-        background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
-        color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
       }
       .advancedSearch {
         float: right;
@@ -93,22 +92,21 @@ Custom property | Description | Default
         color: var(--uvalib-search-box-advanced-text-color,--color-white);
         text-decoration: none;
       }
-      iron-icon {
-        width: 12px;
-        height: 12px;
-      }
       #site {
         padding-top: 10px;
       }
       .search-field {
-        margin: 0;
-        padding: 0;
+        margin: 0px;
+        padding: 0px;
         display: inline-block;
-        width: 90%;
+        width: 91%;
         --paper-input-container: {
           background-color: white;
           color: var(--color-text-gray);
-          border-radius: 3px;
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
         }
         --paper-input-container-underline: {
           background-color: var(--color-white);
@@ -121,9 +119,11 @@ Custom property | Description | Default
         margin-left: auto;
         margin-right: auto;
         width: 95%;
+        @apply(--layout-horizontal);
       }
-      #single-search .searchbox {
-        width: 96%;
+      #single-search {
+        padding-top: 20px;
+        padding-bottom: 20px;
       }
     </style>
 

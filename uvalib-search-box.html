@@ -68,23 +68,24 @@ Custom property | Description | Default
       uvalib-button {
         background-color: var(--uvalib-search-box-btn-bkgrd-color,--color-text-blue);
         color: var(--uvalib-search-box-btn-text-color,--color-white);
-        margin: 0px;
-        padding: 0px;
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
         border-top-right-radius: 3px;
         border-bottom-right-radius: 3px;
         display: inline-block;
-        line-height: 20px;
       }
       uvalib-button span {
         font-weight: bold;
       }
       .advancedSearch {
-        float: right;
+        margin-left: auto;
+        margin-right: auto;
+        width: 94%;
         padding-bottom: 10px;
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
       }
-      .searchLink {
+      .catalog-search {
         float: left;
         padding-right: 20px;
       }
@@ -107,19 +108,22 @@ Custom property | Description | Default
           border-bottom-right-radius: 0;
           border-top-left-radius: 3px;
           border-bottom-left-radius: 3px;
+          line-height: 30px;
         }
         --paper-input-container-underline: {
           background-color: var(--color-white);
         }
         --paper-input-container-input: {
-          padding-left: 15px;
+          padding-left: 10px;
+          padding-right: 10px;
         }
       }
       .searchbox {
         margin-left: auto;
         margin-right: auto;
-        width: 95%;
+        width: 94%;
         @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
       }
       #single-search {
         padding-top: 20px;
@@ -137,7 +141,7 @@ Custom property | Description | Default
           <div id="virgo">
             <div class="advancedSearch">
               <template is="dom-if" if="{{advancedSearch}}">
-                <div class="searchLink">
+                <div class="searchLink catalog-search">
                   <a href="{{advancedCatalogSearchUrl}}" tabindex="0">{{advancedCatalogSearchText}} <iron-icon icon="chevron-right"></iron-icon></a>
                 </div>
                 <div class="searchLink">

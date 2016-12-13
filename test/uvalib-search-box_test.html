@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <title>uvalib-search-box test</title>
     <meta charset="utf-8">
@@ -12,9 +12,19 @@
   </head>
   <body>
 
+    <test-fixture id="advanced">
+      <template>
+        <uvalib-search-box advanced-search site-search></uvalib-search-box>
+      </template>
+    </test-fixture>
     <test-fixture id="basic">
       <template>
         <uvalib-search-box></uvalib-search-box>
+      </template>
+    </test-fixture>
+    <test-fixture id="simple-icon">
+      <template>
+        <uvalib-search-box use-icon-for-button></uvalib-search-box>
       </template>
     </test-fixture>
 
@@ -26,6 +36,9 @@
           assert.equal(element.is, 'uvalib-search-box');
         });
 
+        a11ySuite('advanced');
+        a11ySuite('basic');
+        a11ySuite('simple-icon');
       });
     </script>
   </body>

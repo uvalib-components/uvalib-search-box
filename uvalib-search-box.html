@@ -38,6 +38,7 @@ Custom property | Description | Default
         display: block;
         font-family: var(--uvalib-search-box-font-family,--font-primary);
         --paper-input-container-focus-color: var(--color-accessibility-outline);
+
       }
       iron-icon {
         width: 12px;
@@ -110,9 +111,17 @@ Custom property | Description | Default
           border-bottom-left-radius: 3px;
           line-height: 30px;
         }
+
         --paper-input-container-underline: {
-          background-color: var(--color-white);
+          display: none;
         }
+        --paper-input-container-underline-focus: {
+          display: none;
+        }
+        --paper-input-container-underline-disabled: {
+          display: none;
+        }
+
         --paper-input-container-input: {
           padding-left: 10px;
           padding-right: 10px;

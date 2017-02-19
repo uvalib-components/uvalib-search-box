@@ -1,12 +1,18 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-menu/paper-menu.html">
+<link rel="import" href="../paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../uvalib-button/uvalib-button.html">
-<link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../uvalib-theme/uvalib-theme.html">
 <link rel="import" href="../uvalib-theme/uvalib-icons.html">
+<link rel="import" href="uvalib-searchbox-behavior.html">
 
 <!--
 `uvalib-search-box`
@@ -38,7 +44,6 @@ Custom property | Description | Default
         display: block;
         font-family: var(--uvalib-search-box-font-family,--font-primary);
         --paper-input-container-focus-color: var(--color-accessibility-outline);
-
       }
       iron-icon {
         width: 12px;
@@ -207,7 +212,7 @@ Custom property | Description | Default
     Polymer({
 
       is: 'uvalib-search-box',
-
+      behaviors: [uvalibbehaviors.searchbox],
       properties: {
         _searchVirgoBtn: {
           type: Object,
@@ -233,117 +238,7 @@ Custom property | Description | Default
             return this.querySelector('searchvirgoicon');
           }
         },
-        /**
-         * Indicates whether to display advanced search links
-         */
-        advancedSearch: {
-          type: Boolean,
-          value: false
-        },
 
-        /**
-         * Text to display for article search hyperlink.
-         */
-        advancedArticleSearchText: {
-          type: String,
-          value: 'Article Advanced'
-        },
-
-        /**
-         * URL for accessing the advanced article search features.
-         */
-        advancedArticleSearchUrl: {
-          type: String,
-          value: '//search.lib.virginia.edu/articles/advanced?catalog_select=articles'
-        },
-
-        /**
-         * Text to display for catalog search hyperlink.
-         */
-        advancedCatalogSearchText: {
-          type: String,
-          value: 'Catalog Advanced'
-        },
-
-        /**
-         * URL for accessing the advanced catalog search features.
-         */
-        advancedCatalogSearchUrl: {
-          type: String,
-          value: '//search.lib.virginia.edu/advanced?catalog_select=catalog'
-          },
-
-        /**
-         * Placeholder text to display in the Virgo search input text box.
-         */
-        searchVirgoPlaceholder: {
-          type: String,
-          value: 'Search Virgo for books, articles, digital materials, and more.',
-        },
-
-        /**
-         * Placeholder text to display in the site search input text box.
-         */
-        searchSitePlaceholder: {
-          type: String,
-          value: 'Search the UVA Library website.',
-        },
-
-        /**
-         * Tab selected for display.
-         */
-        selectedTab: {
-          type: String,
-          value: '0'
-        },
-
-        /**
-         * Indicates whether to display site search tab.
-         */
-        siteSearch: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * Text to display in site search tab.
-         */
-        siteSearchTabText: {
-          type: String,
-          value: 'Site Search',
-        },
-
-        /**
-         * URL used to search the site.
-         */
-        siteSearchTabUrl: {
-          type: String,
-          value: '//www.library.virginia.edu/sitesearch/',
-        },
-
-        /**
-         * Text to display in Virgo search tab.
-         */
-        virgoSearchTabText: {
-          type: String,
-          value: 'Virgo'
-        },
-
-        /**
-         * URL used to search Virgo.
-         */
-        virgoSearchTabUrl: {
-          type: String,
-          value: '//search.lib.virginia.edu/catalog'
-        },
-
-        /**
-         * Use magnifying glass icon in place of button.
-         */
-        useIconForButton: {
-          type: Boolean,
-          value: false
-        }
       },
 
       focusTextbox: function() {
@@ -365,21 +260,179 @@ Custom property | Description | Default
         e.preventDefault();
         this.querySelector('#single-search > paper-input').focus();
       }
+
     });
 
-    /**
-     * Submits the Virgo search form.
-     */
-    function submitCatalogSearch() {
-      document.getElementById('virgoSearchForm').submit();
-    };
+  </script>
+</dom-module>
 
-    /**
-     * Submits the Library site search form.
-     */
-    function submitSiteSearch() {
-      document.getElementById('siteSearchForm').submit();
-    };
+<dom-module id="uvalib-search-area">
+  <template>
+    <style is="custom-style" include="uvalib-theme">
+      :host {
+        display: block;
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+      }
+      #container {
+        width: 100%;
+        max-width: var(--uvalib-display-width-max);
+        @apply(--layout-horizontal);
+      }
+      #main {
+        @apply(--layout-flex);
+      }
+      #close {
+        width: 100px;
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
+      #close paper-icon-button {
+        color: #002f6c;
+        height: 60px;
+        width: 60px;
+      }
+      #links {
+        @apply(--layout-horizontal);
+        height: 44px;
+      }
+      #search {
+        @apply(--layout-horizontal);
+        height: 56px;
+      }
+      #links, #search {
+
+      }
+      .spacer {
+        @apply(--layout-flex);
+      }
+      #links uvalib-button {
+        --uvalib-button-text-transform: none;
+        --uvalib-button: {
+          font-family: SofiaPro;
+          font-size: 16px;
+          font-weight: normal;
+          font-style: normal;
+          font-stretch: normal;
+          line-height: normal;
+          letter-spacing: 1.1px;
+          color: #000000;
+        };
+      }
+      #search input {
+        @apply(--layout-flex);
+        display: inline-block;
+        box-sizing: content-box;
+        padding: 0 31px 0 31px;
+        height: 54px;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+        background-color: #fafafa;
+        border: solid 1px #e0e0e0;
+        font-family: SofiaPro;
+        font-size: 19px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 1px;
+        text-align: left;
+        color: #000000;
+
+      }
+      #search input::placeholder {
+        font-family: SofiaPro;
+        font-size: 19px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: normal;
+        letter-spacing: 1px;
+        text-align: left;
+        color: rgba(0, 0, 0, 0.23);
+      }
+      #search paper-menu-button {
+        width: 218px;
+        height: 54px;
+        padding: 0;
+        background-color: #eeeeee;
+        border: solid 1px #e0e0e0;
+        border-left-width: 0;
+      }
+      #search paper-menu-button paper-button {
+        width: 218px;
+        --paper-button: {
+          text-transform: none;
+        };
+        font-size: 19px;
+      }
+      #search paper-button {
+        font-family: SofiaPro;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.21;
+        letter-spacing: 1px;
+        color: rgba(0, 0, 0, 0.54);
+      }
+      #search paper-button.submit {
+        width: 189px;
+        font-size: 22px;
+        font-weight: 500;
+        line-height: normal;
+        letter-spacing: 0.6px;
+        color: #ffffff;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        background-color: #0065e6;
+        margin: 0;
+      }
+    </style>
+    <div id="container">
+      <div id="main">
+        <div id="links">
+          <div class="spacer"></div>
+          <uvalib-button href="{{advancedCatalogSearchUrl}}" icon="angle-right" reverse>{{advancedCatalogSearchText}}</uvalib-button>
+          <uvalib-button href="{{advancedArticleSearchUrl}}" icon="angle-right" reverse>{{advancedArticleSearchText}}</uvalib-button>
+        </div>
+        <div id="search">
+          <input placeholder="Search the UVA Library website" />
+          <paper-menu-button>
+            <paper-button class="dropdown-trigger" noink elevation="0">
+              <span>{{selectedIndex}}</span>
+              <iron-icon icon="angle-down"></iron-icon>
+            </paper-button>
+            <paper-menu class="dropdown-content" selected="{{selectedIndex}}" attr-for-selected="val">
+              <paper-item val="Site Search">Site Search</paper-item>
+              <paper-item val="Virgo">Virgo</paper-item>
+            </paper-menu>
+          </paper-menu-button>
+          <paper-button class="submit">Search</paper-button>
+        </div>
+      </div>
+      <div id="close">
+        <paper-icon-button icon="times"></paper-icon-button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'uvalib-search-area',
+      behaviors: [uvalibbehaviors.searchbox],
+      properties: {
+
+        selectedIndex: {
+          type: String,
+          value: "Virgo"
+        }
+
+      },
+
+
+    });
 
   </script>
 </dom-module>

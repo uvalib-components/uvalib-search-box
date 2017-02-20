@@ -60,6 +60,9 @@ Custom property | Description | Default
         background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
         color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
       }
+      #single-search {
+        background-color: inherit !important;
+      }
       #single-search,
       iron-pages {
         background-color: var(--uvalib-search-box-bkgrd-color,--color-primary-blue);
@@ -170,7 +173,7 @@ Custom property | Description | Default
               <div class="searchbox">
                 <paper-input no-label-float class="search-field" id="q1" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
                 </paper-input>
-                <uvalib-button class="search" onclick="submitCatalogSearch()" alt="Search Virgo"><span>Search</span></uvalib-button>
+                <uvalib-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></uvalib-button>
               </div>
             </form>
           </div>
@@ -179,7 +182,7 @@ Custom property | Description | Default
               <div class="searchbox">
                 <paper-input no-label-float class="search-field" id="q2" name="q" label="" placeholder="{{searchSitePlaceholder}}" tabindex="0">
                 </paper-input>
-                <uvalib-button onclick="submitSiteSearch()" alt="Search Website"><span>Search</span></uvalib-button>
+                <uvalib-button on-tap="submitSiteSearch" alt="Search Website"><span>Search</span></uvalib-button>
               </div>
             </form>
           </div>
@@ -195,10 +198,10 @@ Custom property | Description | Default
               <paper-input no-label-float class="search-field" id="q3" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
               </paper-input>
               <template is="dom-if" if="{{!useIconForButton}}">
-                <uvalib-button onclick="submitCatalogSearch()" alt="Search Virgo"><span>Search</span></uvalib-button>
+                <uvalib-button on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></uvalib-button>
               </template>
               <template is="dom-if" if="{{useIconForButton}}">
-                <uvalib-button alt="Search Virgo" onclick="submitCatalogSearch()" icon="search"></uvalib-button>
+                <uvalib-button alt="Search Virgo" on-tap="submitCatalogSearch" icon="search"></uvalib-button>
               </template>
             </div>
           </form>

@@ -302,6 +302,8 @@ Custom property | Description | Default
       #search {
         @apply(--layout-horizontal);
         height: 56px;
+        margin-left: 10px;
+        margin-right: 10px;
       }
       #links, #search {
 
@@ -366,6 +368,9 @@ Custom property | Description | Default
         border: solid 1px #e0e0e0;
         border-left-width: 0;
       }
+      #search paper-menu-button[small], paper-button[small] {
+        width: 150px !important;
+      }
       #search paper-menu-button paper-button {
         width: 218px;
         --paper-button: {
@@ -418,8 +423,8 @@ Custom property | Description | Default
               <input id="q2" name="q" placeholder="{{searchSitePlaceholder}}">
             </form>
           </template>
-          <paper-menu-button>
-            <paper-button class="dropdown-trigger" noink elevation="0">
+          <paper-menu-button small$="{{small}}">
+            <paper-button small$="{{small}}" class="dropdown-trigger" noink elevation="0">
               <span>{{selectedIndex}}</span>
               <iron-icon icon="angle-down"></iron-icon>
             </paper-button>
@@ -428,7 +433,8 @@ Custom property | Description | Default
               <paper-item val="Virgo">Virgo</paper-item>
             </paper-menu>
           </paper-menu-button>
-          <paper-button class="submit" on-tap="_submit">Search</paper-button>
+          <paper-button class="submit" on-tap="_submit" hidden$="{{small}}">Search</paper-button>
+          <paper-button class="submit small" small on-tap="_submit" hidden$="{{!small}}"><iron-icon icon="search"></iron-icon></paper-button>
         </div>
       </div>
       <div id="close">
@@ -442,7 +448,10 @@ Custom property | Description | Default
       is: 'uvalib-search-area',
       behaviors: [uvalibbehaviors.searchbox],
       properties: {
-
+        small: {
+          type:Boolean,
+          value:false
+        },
         selectedIndex: {
           type: String,
           value: "Virgo"

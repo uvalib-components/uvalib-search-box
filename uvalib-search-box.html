@@ -415,12 +415,12 @@ Custom property | Description | Default
               <input type="hidden" name="portal" value="all">
               <input type="hidden" name="catalog_select" value="all">
               <input type="hidden" name="sort" value="date_received_facet desc">
-              <input id="q1" name="q" placeholder="{{searchVirgoPlaceholder}}">
+              <input id="q1" class="searchinput" current$="{{_isVirgo(selectedIndex)}}" name="q" placeholder="{{searchVirgoPlaceholder}}">
             </form>
           </template>
           <template is="dom-if" if="{{!_isVirgo(selectedIndex)}}">
             <form is="iron-form" method="get" action="{{siteSearchTabUrl}}" id="siteSearchForm">
-              <input id="q2" name="q" placeholder="{{searchSitePlaceholder}}">
+              <input id="q2" class="searchinput" current$="{{!_isVirgo(selectedIndex)}}" name="q" placeholder="{{searchSitePlaceholder}}">
             </form>
           </template>
           <paper-menu-button small$="{{small}}">
@@ -457,6 +457,12 @@ Custom property | Description | Default
           value: "Virgo"
         }
 
+      },
+      focus: function(){
+        console.log('focus the searchbox!');
+        var input = this.$.container.querySelector('.searchinput[current]');
+        input.focus();
+        input.select();
       },
       _isVirgo: function(){
         return (this.selectedIndex === "Virgo");

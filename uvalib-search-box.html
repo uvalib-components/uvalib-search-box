@@ -195,7 +195,7 @@ Custom property | Description | Default
             <input type="hidden" name="catalog_select" value="all">
             <input type="hidden" name="sort" value="date_received_facet desc">
             <div class="searchbox">
-              <paper-input no-label-float class="search-field" id="q3" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
+              <paper-input on-focus="_focused" no-label-float class="search-field" id="q3" name="q" label="" placeholder="{{searchVirgoPlaceholder}}" tabindex="0">
               </paper-input>
               <template is="dom-if" if="{{!useIconForButton}}">
                 <uvalib-button on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></uvalib-button>
@@ -242,6 +242,11 @@ Custom property | Description | Default
           }
         },
 
+      },
+
+      _focused: function(){
+        console.log('focused input!');
+        this.fire('focus');
       },
 
       focusTextbox: function() {
@@ -479,3 +484,4 @@ Custom property | Description | Default
 
   </script>
 </dom-module>
+

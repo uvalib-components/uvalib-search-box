@@ -160,8 +160,8 @@ Custom property | Description | Default
       }
     </style>
 
-    <div class="" role="search">
-      <template is="dom-if" if="[[siteSearch]]" restamp>
+    <div id="container" class="" role="search">
+      <template is="dom-if" if="[[siteSearch]]">
         <paper-tabs selected="{{selectedTab}}" no-bar no-slide autoselect>
           <paper-tab tabindex="0">[[virgoSearchTabText]]</paper-tab>
             <paper-tab tabindex="0">[[siteSearchTabText]]</paper-tab>
@@ -200,7 +200,7 @@ Custom property | Description | Default
           </div>
         </iron-pages>
       </template>
-      <template is="dom-if" if="[[!siteSearch]]" restamp>
+      <template is="dom-if" if="[[!siteSearch]]">
         <div id="single-search">
           <form is="iron-form" method="get" action="[[virgoSearchTabUrl]]" id="singleSearchForm">
             <input type="hidden" name="portal" value="all">
@@ -281,10 +281,10 @@ Custom property | Description | Default
         this.querySelector('#single-search > paper-input').focus();
       },
       submitCatalogSearch: function() {
-        this.$.search.querySelector('#virgoSearchForm').submit();
+        this.$.container.querySelector('#virgoSearchForm').submit();
       },
       submitSiteSearch: function() {
-        this.$.search.querySelector('#siteSearchForm').submit();
+        this.$.container.querySelector('#siteSearchForm').submit();
       }
 
     });

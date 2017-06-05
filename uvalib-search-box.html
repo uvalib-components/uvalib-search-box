@@ -279,6 +279,12 @@ Custom property | Description | Default
         console.log(e.detail);
         e.preventDefault();
         this.querySelector('#single-search > paper-input').focus();
+      },
+      submitCatalogSearch: function() {
+        this.$.search.querySelector('#virgoSearchForm').submit();
+      },
+      submitSiteSearch: function() {
+        this.$.search.querySelector('#siteSearchForm').submit();
       }
 
     });

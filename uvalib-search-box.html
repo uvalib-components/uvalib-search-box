@@ -201,7 +201,7 @@ Custom property | Description | Default
         </iron-pages>
       </template>
       <template is="dom-if" if="[[!siteSearch]]">
-        <div id="container" class="single-search">
+        <div class="single-search">
           <form is="iron-form" method="get" action="[[virgoSearchTabUrl]]" id="virgoSearchForm">
             <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">
@@ -265,7 +265,8 @@ Custom property | Description | Default
         this.focusTextbox();
       },
       focusTextbox: function() {
-        this.querySelector('iron-pages > div.iron-selected paper-input').focus();
+        this.$.container.querySelector('paper-input').focus();
+//        this.querySelector('iron-pages > div.iron-selected paper-input').focus();
       },
 
       _jumpToSearchInputText: function(e) {

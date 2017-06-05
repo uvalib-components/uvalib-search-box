@@ -64,14 +64,14 @@ Custom property | Description | Default
         background-color: var(--uvalib-search-box-selected-tab-color,--color-primary-blue);
         color: var(--uvalib-search-box-selected-tab-text-color,--color-white);
       }
-      #single-search {
+      .single-search {
         background-color: inherit !important;
       }
       iron-pages {
         padding-top: 20px;
         padding-bottom: 20px;
       }
-      #single-search,
+      .single-search,
       iron-pages {
         background-color: var(--uvalib-search-box-bkgrd-color,--color-primary-blue);
         margin-left: auto;
@@ -152,7 +152,7 @@ Custom property | Description | Default
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
       }
-      #single-search {
+      .single-search {
         /*
         padding-top: 20px;
         padding-bottom: 20px;
@@ -201,7 +201,7 @@ Custom property | Description | Default
         </iron-pages>
       </template>
       <template is="dom-if" if="[[!siteSearch]]">
-        <div id="single-search">
+        <div id="container" class="single-search">
           <form is="iron-form" method="get" action="[[virgoSearchTabUrl]]" id="singleSearchForm">
             <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">

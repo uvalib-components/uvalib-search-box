@@ -241,6 +241,12 @@ Custom property | Description | Default
       },
       _close: function(){
         this.fire('close');
+      },
+      submitCatalogSearch: function() {
+        this.$.search.querySelector('#virgoSearchForm').submit();
+      },
+      submitSiteSearch: function() {
+        this.$.search.querySelector('#siteSearchForm').submit();
       }
 
     });

@@ -261,6 +261,9 @@ Custom property | Description | Default
         this.fire('focus');
       },
 
+      focus: function(){
+        this.focusTextbox();
+      },
       focusTextbox: function() {
         this.querySelector('iron-pages > div.iron-selected paper-input').focus();
       },

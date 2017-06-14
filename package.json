@@ -4,7 +4,6 @@
   "description": "Library Search Box",
   "main": "uvalib-search-box.html",
   "scripts": {
-    "gulp-setup": "npm install gulp gulp-rename gulp-accessibility run-sequence"
   },
   "author": "",
   "license": "ISC",

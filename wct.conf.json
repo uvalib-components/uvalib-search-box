@@ -2,6 +2,7 @@
   "verbose": false,
   "plugins": {
     "sauce": {
+      "idleTimeout": 1000,
       "disabled": true,
       "browsers": [
         {

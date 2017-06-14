@@ -2,6 +2,8 @@
   "verbose": false,
   "plugins": {
     "sauce": {
+      "maxDuration": 300,
+      "commandTimeout": 600,
       "idleTimeout": 1000,
       "disabled": true,
       "browsers": [

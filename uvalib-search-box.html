@@ -1,4 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
+<!--
+<link rel="import" href="../iron-form/iron-form.html">
+-->
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
@@ -182,17 +185,19 @@ Custom property | Description | Default
               <input type="hidden" name="portal" value="all">
               <input type="hidden" name="catalog_select" value="all">
               <input type="hidden" name="sort" value="date_received_facet desc">
+              <input type="hidden" name="q" value$="[[query]]">
               <div class="searchbox">
-                <paper-input no-label-float class="search-field" id="q1" name="q" label="" placeholder="[[searchVirgoPlaceholder]]" tabindex="0">
+                <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{query}}" label="" placeholder="[[searchVirgoPlaceholder]]" tabindex="0">
                 </paper-input>
                 <uvalib-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></uvalib-button>
               </div>
             </form>
           </div>
           <div id="site">
-            <form is="iron-form" method="get" action="[[siteSearchTabUrl]]" id="siteSearchForm">
+            <form method="get" action="[[siteSearchTabUrl]]" id="siteSearchForm">
+              <input type="hidden" name="q" value$="[[query]]">
               <div class="searchbox">
-                <paper-input no-label-float class="search-field" id="q2" name="q" label="" placeholder="[[searchSitePlaceholder]]" tabindex="0">
+                <paper-input on-keydown="_checkForEnterSearch" no-label-float class="search-field" id="q2" value="{{query}}" label="" placeholder="[[searchSitePlaceholder]]" tabindex="0">
                 </paper-input>
                 <uvalib-button on-tap="submitSiteSearch" alt="Search Website"><span>Search</span></uvalib-button>
               </div>
@@ -202,12 +207,13 @@ Custom property | Description | Default
       </template>
       <template is="dom-if" if="[[!siteSearch]]">
         <div class="single-search">
-          <form is="iron-form" method="get" action="[[virgoSearchTabUrl]]" id="virgoSearchForm">
+          <form method="get" action="[[virgoSearchTabUrl]]" id="virgoSearchForm">
             <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">
             <input type="hidden" name="sort" value="date_received_facet desc">
+            <input type="hidden" name="q" value$="[[query]]">
             <div class="searchbox">
-              <paper-input on-focus="_focused" no-label-float class="search-field" id="q3" name="q" label="" placeholder="[[searchVirgoPlaceholder]]" tabindex="0">
+              <paper-input on-keydown="_checkForEnterVirgo" on-focus="_focused" value="{{query}}" no-label-float class="search-field" id="q3" label="" placeholder="[[searchVirgoPlaceholder]]" tabindex="0">
               </paper-input>
               <template is="dom-if" if="[[!useIconForButton]]" restamp>
                 <uvalib-button on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></uvalib-button>
@@ -289,6 +295,18 @@ Custom property | Description | Default
       },
       submitSiteSearch: function() {
         this.$.container.querySelector('#siteSearchForm').submit();
+      },
+      _checkForEnterVirgo: function (e) {
+          // check if 'enter' was pressed
+          if (e.keyCode === 13) {
+              this.submitCatalogSearch();
+          }
+      },
+      _checkForEnterSearch: function (e) {
+          // check if 'enter' was pressed
+          if (e.keyCode === 13) {
+              this.submitSiteSearch();
+          }
       }
 
     });

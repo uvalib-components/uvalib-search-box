@@ -182,9 +182,7 @@ Custom property | Description | Default
               </template>
             </div>
             <form is="iron-form" method="get" action="[[virgoSearchTabUrl]]" id="virgoSearchForm">
-              <input type="hidden" name="portal" value="all">
               <input type="hidden" name="catalog_select" value="all">
-              <input type="hidden" name="sort" value="date_received_facet desc">
               <input type="hidden" name="q" value$="[[query]]">
               <div class="searchbox">
                 <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{query}}" label="" placeholder="[[searchVirgoPlaceholder]]" tabindex="0">
@@ -208,9 +206,7 @@ Custom property | Description | Default
       <template is="dom-if" if="[[!siteSearch]]">
         <div class="single-search">
           <form method="get" action="[[virgoSearchTabUrl]]" id="virgoSearchForm">
-            <input type="hidden" name="portal" value="all">
             <input type="hidden" name="catalog_select" value="all">
-            <input type="hidden" name="sort" value="date_received_facet desc">
             <input type="hidden" name="q" value$="[[query]]">
             <div class="searchbox">
               <paper-input on-keydown="_checkForEnterVirgo" on-focus="_focused" value="{{query}}" no-label-float class="search-field" id="q3" label="" placeholder="[[searchVirgoPlaceholder]]" tabindex="0">

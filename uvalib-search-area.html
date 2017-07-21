@@ -180,9 +180,7 @@ Custom property | Description | Default
         <div id="search">
           <template is="dom-if" if="{{_isVirgo(selectedIndex)}}">
             <form is="iron-form" method="get" action="{{virgoSearchTabUrl}}" id="virgoSearchForm">
-              <input type="hidden" name="portal" value="all">
               <input type="hidden" name="catalog_select" value="all">
-              <input type="hidden" name="sort" value="date_received_facet desc">
               <input id="q1" class="searchinput" current$="{{_isVirgo(selectedIndex)}}" name="q" placeholder="{{searchVirgoPlaceholder}}">
             </form>
           </template>

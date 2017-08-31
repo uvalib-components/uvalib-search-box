@@ -170,7 +170,7 @@ Custom property | Description | Default
             <paper-tab tabindex="0">[[siteSearchTabText]]</paper-tab>
         </paper-tabs>
         <iron-pages id="pages" selected="[[selectedTab]]">
-          <div id="virgo">
+          <div title="Virgo - UVA Library Catalog" id="virgo">
             <div class="advancedSearch">
               <template is="dom-if" if="[[advancedSearch]]" restamp>
                 <div class="searchLink catalog-search">
@@ -191,7 +191,7 @@ Custom property | Description | Default
               </div>
             </form>
           </div>
-          <div id="site">
+          <div title="UVA Library site search" id="site">
             <form method="get" action="[[siteSearchTabUrl]]" id="siteSearchForm">
               <input type="hidden" name="q" value$="[[query]]">
               <div class="searchbox">

@@ -1,10 +1,11 @@
 <!doctype html>
-
 <html lang="en">
   <head>
-    <title>uvalib-search-box test</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>uvalib-search-box test</title>
+
     <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
 
@@ -12,34 +13,40 @@
   </head>
   <body>
 
-    <test-fixture id="advanced">
-      <template>
-        <uvalib-search-box advanced-search site-search></uvalib-search-box>
-      </template>
-    </test-fixture>
-    <test-fixture id="basic">
+    <test-fixture id="BasicTestFixture">
       <template>
         <uvalib-search-box></uvalib-search-box>
       </template>
     </test-fixture>
-    <test-fixture id="simple-icon">
+
+    <test-fixture id="ChangedPropertyTestFixture">
       <template>
-        <uvalib-search-box use-icon-for-button></uvalib-search-box>
+        <uvalib-search-box prop1="new-prop1"></uvalib-search-box>
       </template>
     </test-fixture>
 
     <script>
-      suite('uvalib-search-box', function() {
+      suite('uvalib-search-box', () => {
 
-        test('instantiating the element works', function() {
-          var element = fixture('basic');
-          assert.equal(element.is, 'uvalib-search-box');
+        test('instantiating the element with default properties works', () => {
+          const element = fixture('BasicTestFixture');
+          assert.equal(element.prop1, 'uvalib-search-box');
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello uvalib-search-box!');
         });
 
-        a11ySuite('advanced');
-        a11ySuite('basic');
-        a11ySuite('simple-icon');
+        test('setting a property on the element works', () => {
+          // Create a test fixture
+          const element = fixture('ChangedPropertyTestFixture');
+          assert.equal(element.prop1, 'new-prop1');
+          const elementShadowRoot = element.shadowRoot;
+          const elementHeader = elementShadowRoot.querySelector('h2');
+          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+        });
+
       });
     </script>
+
   </body>
 </html>

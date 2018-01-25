@@ -2,7 +2,7 @@
 <link rel="import" href="../uvalib-theme/uvalib-theme.html">
 <link rel="import" href="../uvalib-theme/uvalib-searchbox-style.html">
 <link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../uvalib-button/uvalib-button.html">
+<link rel="import" href="../paper-button/paper-button.html">
 
 <dom-module id="uvalib-search-box">
   <template>
@@ -20,7 +20,7 @@
       <input type="hidden" name="q" value$="[[_query]]">
       <div class="searchbox">
         <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{_query}}" label="" placeholder="[[_searchVirgoPlaceholder]]" tabindex="0"></paper-input>
-        <uvalib-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></uvalib-button>
+        <paper-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></paper-button>
       </div>
     </form>
   </template>

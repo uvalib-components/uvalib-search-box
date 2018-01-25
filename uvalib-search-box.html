@@ -10,10 +10,19 @@
       <style include="uvalib-theme uvalib-searchbox-style"></style>
     </custom-style>
 
+    <h2 id="search-str" class="screen-reader-text">Search</h2>
     <nav>
-      <a href="https://search.lib.virginia.edu/advanced?catalog_select=catalog">Catalog Advanced &gt;</a>
-      <a href="https://search.lib.virginia.edu/articles/advanced?catalog_select=articles">Article Advanced &gt;</a>
-      <a href="/search">Site Search &gt;</a>
+      <ul>
+        <li>
+          <a id="catalog-adv" href="https://search.lib.virginia.edu/advanced?catalog_select=catalog" aria-labelledby="catalog-adv search-str">Catalog Advanced &gt;</a>
+        </li>
+        <li>
+          <a id="article-adv" href="https://search.lib.virginia.edu/articles/advanced?catalog_select=articles" aria-labelledby="article-adv search-str">Article Advanced &gt;</a>
+        </li>
+        <li>
+          <a href="/search">Site Search &gt;</a>
+        </li>
+      </ul>
     </nav>
     <form is="iron-form" method="get" action="[[_virgoSearchUrl]]" id="virgoSearchForm">
       <input type="hidden" name="catalog_select" value="all">

@@ -27,7 +27,7 @@
     <form is="iron-form" method="get" action="[[_virgoSearchUrl]]" id="virgoSearchForm">
       <input type="hidden" name="catalog_select" value="all">
       <input type="hidden" name="q" value$="[[_query]]">
-      <div class="searchbox">
+      <div class="searchField">
         <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{_query}}" label="" placeholder="[[_searchVirgoPlaceholder]]" tabindex="0"></paper-input>
         <paper-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></paper-button>
       </div>
@@ -45,14 +45,6 @@
      */
     class UvalibSearchBox extends Polymer.Element {
       static get is() { return 'uvalib-search-box'; }
-      static get properties() {
-        return {
-          prop1: {
-            type: String,
-            value: 'uvalib-search-box'
-          }
-        };
-      }
     }
 
     window.customElements.define(UvalibSearchBox.is, UvalibSearchBox);

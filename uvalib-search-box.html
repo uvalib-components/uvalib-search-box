@@ -44,7 +44,16 @@
      * @demo demo/index.html
      */
     class UvalibSearchBox extends Polymer.Element {
-      static get is() { return 'uvalib-search-box'; }
+      static get is() { return 'uvalib-search-box';
+      submitCatalogSearch() {
+        this.$.virgoSearchForm.submit();
+      }
+      _checkForEnterVirgo(e) {
+          // check if 'enter' was pressed
+          if (e.keyCode === 13) {
+              this.submitCatalogSearch();
+          }
+      }
     }
 
     window.customElements.define(UvalibSearchBox.is, UvalibSearchBox);

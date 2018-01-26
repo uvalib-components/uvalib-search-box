@@ -44,7 +44,19 @@
      * @demo demo/index.html
      */
     class UvalibSearchBox extends Polymer.Element {
-      static get is() { return 'uvalib-search-box';
+      static get is() { return 'uvalib-search-box';}
+      static get properties() { return {
+        _virgoSearchUrl: {
+          type: String,
+          value: "https://search.lib.virginia.edu/catalog"
+        },
+        _query: String,
+        _searchVirgoPlaceholder: {
+          type: String,
+          value: "Search Virgo for books, articles, digital materials, and more."
+        }
+      }}
+
       submitCatalogSearch() {
         this.$.virgoSearchForm.submit();
       }

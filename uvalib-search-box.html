@@ -10,28 +10,31 @@
       <style include="uvalib-theme uvalib-searchbox-style"></style>
     </custom-style>
 
-    <h2 id="search-str" class="screen-reader-text">Search</h2>
-    <nav>
-      <ul>
-        <li>
-          <a id="catalog-adv" href="https://search.lib.virginia.edu/advanced?catalog_select=catalog" aria-labelledby="catalog-adv search-str">Catalog Advanced &gt;</a>
-        </li>
-        <li>
-          <a id="article-adv" href="https://search.lib.virginia.edu/articles/advanced?catalog_select=articles" aria-labelledby="article-adv search-str">Article Advanced &gt;</a>
-        </li>
-        <li>
-          <a href="/search">Site Search &gt;</a>
-        </li>
-      </ul>
-    </nav>
-    <form is="iron-form" method="get" action="[[_virgoSearchUrl]]" id="virgoSearchForm">
-      <input type="hidden" name="catalog_select" value="all">
-      <input type="hidden" name="q" value$="[[_query]]">
-      <div class="searchField">
-        <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{_query}}" label="" placeholder="[[_searchVirgoPlaceholder]]" tabindex="0"></paper-input>
-        <paper-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></paper-button>
-      </div>
-    </form>
+    <div role="search">
+      <h2 id="search-str" class="screen-reader-text">Search</h2>
+      <nav>
+        <ul>
+          <li>
+            <a id="catalog-adv" href="https://search.lib.virginia.edu/advanced?catalog_select=catalog" aria-labelledby="catalog-adv search-str">Catalog Advanced <span aria-hidden="true">&gt;</span></a>
+          </li>
+          <li>
+            <a id="article-adv" href="https://search.lib.virginia.edu/articles/advanced?catalog_select=articles" aria-labelledby="article-adv search-str">Article Advanced <span aria-hidden="true">&gt;</span></a>
+          </li>
+          <li>
+            <a href="/search">Site Search <span aria-hidden="true">&gt;</span></a>
+          </li>
+        </ul>
+      </nav>
+      <form is="iron-form" method="get" action="[[_virgoSearchUrl]]" id="virgoSearchForm">
+        <input type="hidden" name="catalog_select" value="all">
+        <input type="hidden" name="q" value$="[[_query]]">
+        <label class="screen-reader-text" for="q1">[[_searchVirgoPlaceholder]]</label>
+        <div class="searchField">
+          <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{_query}}" label="" placeholder="[[_searchVirgoPlaceholder]]" tabindex="0"></paper-input>
+          <paper-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></paper-button>
+        </div>
+      </form>
+    </div>
   </template>
 
   <script>

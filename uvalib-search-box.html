@@ -11,14 +11,14 @@
     </custom-style>
 
     <div role="search">
-      <h2 id="search-str" class="screen-reader-text">Search</h2>
+      <h2 id="searchStr" class="screen-reader-text">Search</h2>
       <nav>
         <ul>
           <li>
-            <a id="catalog-adv" href="https://search.lib.virginia.edu/advanced?catalog_select=catalog" aria-labelledby="catalog-adv search-str">Catalog Advanced <span aria-hidden="true">&gt;</span></a>
+            <a id="catalogAdv" href="https://search.lib.virginia.edu/advanced?catalog_select=catalog" aria-labelledby="catalogAdv searchStr">Catalog Advanced <span aria-hidden="true">&gt;</span></a>
           </li>
           <li>
-            <a id="article-adv" href="https://search.lib.virginia.edu/articles/advanced?catalog_select=articles" aria-labelledby="article-adv search-str">Article Advanced <span aria-hidden="true">&gt;</span></a>
+            <a id="articleAdv" href="https://search.lib.virginia.edu/articles/advanced?catalog_select=articles" aria-labelledby="articleAdv searchStr">Article Advanced <span aria-hidden="true">&gt;</span></a>
           </li>
           <li>
             <a href="/search">Site Search <span aria-hidden="true">&gt;</span></a>
@@ -59,6 +59,10 @@
           value: "Search Virgo for books, articles, digital materials, and more."
         }
       }}
+
+      changeFocusToCatalogAdvanced() {
+        this.$.catalogAdv.focus();
+      }
 
       submitCatalogSearch() {
         this.$.virgoSearchForm.submit();

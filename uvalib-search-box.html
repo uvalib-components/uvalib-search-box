@@ -1,17 +1,35 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../uvalib-theme/uvalib-theme.html">
-<link rel="import" href="../uvalib-theme/uvalib-searchbox-style.html">
-<link rel="import" href="../paper-input/paper-input.html">
-<link rel="import" href="../paper-button/paper-button.html">
+<link rel="import" href="uvalib-simple-search-box.html">
 
 <dom-module id="uvalib-search-box">
   <template>
     <custom-style>
-      <style include="uvalib-theme uvalib-searchbox-style"></style>
+      <style include="uvalib-theme">
+      a, a:link, a:visited {
+        color: inherit;
+      }
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      nav li {
+        display: inline-block;
+        color: var(--color-white);
+      }
+      :host([small-screen]) nav li {
+        display: block;
+        font-size: 120%;
+        padding-bottom: .5em;
+      }
+      nav a {
+        padding: 10px;
+      }
+      </style>
     </custom-style>
 
-    <div role="search">
-      <h2 id="searchStr" class="screen-reader-text">Search</h2>
+    <uvalib-simple-search-box placeholder="[[_searchVirgoPlaceholder]]" action="[[_virgoSearchUrl]]" value="{{_query}}" query-name="q" hidden-inputs='[{"name":"catalog_select","value":"all"}]'>
       <nav>
         <ul>
           <li>
@@ -25,16 +43,8 @@
           </li>
         </ul>
       </nav>
-      <form is="iron-form" method="get" action="[[_virgoSearchUrl]]" id="virgoSearchForm">
-        <input type="hidden" name="catalog_select" value="all">
-        <input type="hidden" name="q" value$="[[_query]]">
-        <label class="screen-reader-text" for="q1">[[_searchVirgoPlaceholder]]</label>
-        <div class="searchField">
-          <paper-input on-keydown="_checkForEnterVirgo" no-label-float class="search-field" id="q1" value="{{_query}}" label="" placeholder="[[_searchVirgoPlaceholder]]" tabindex="0"></paper-input>
-          <paper-button class="search" on-tap="submitCatalogSearch" alt="Search Virgo"><span>Search</span></paper-button>
-        </div>
-      </form>
-    </div>
+    </uvalib-simple-search-box>
+
   </template>
 
   <script>

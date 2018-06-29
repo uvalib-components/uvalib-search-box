@@ -1,0 +1,147 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../uvalib-theme/uvalib-theme.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<dom-module id="uvalib-simple-search-box">
+  <template>
+    <custom-style>
+      <style include="uvalib-theme">
+      :host {
+        display: block;
+      }
+      .searchField .search-field {
+        margin: 0px;
+        padding: 0px;
+        display: inline-block;
+        width: 91%;
+        max-width: 500px;
+        --paper-input-container: {
+          background-color: var(--color-white);
+          color: var(--color-text-gray);
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          border-top-left-radius: 3px;
+          border-bottom-left-radius: 3px;
+          line-height: 30px;
+        }
+        --paper-input-container-underline: {
+          display: none;
+        }
+        --paper-input-container-underline-focus: {
+          display: none;
+        }
+        --paper-input-container-underline-disabled: {
+          display: none;
+        }
+        --paper-input-container-input: {
+          text-align: left;
+          padding-left: 10px;
+          padding-right: 10px;
+        }
+      }
+      .searchField {
+        margin-left: auto;
+        margin-right: auto;
+        /*width: 94%;*/
+        padding-top: .5em;
+        padding-bottom: .5em;
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+
+      .search {
+        background-color: var(--color-primary-orange);
+        font-weight: 700;
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+        margin-left: 0;
+      }
+
+      </style>
+    </custom-style>
+
+    <div role="search">
+      <h2 id="searchStr" class="screen-reader-text">[[label]]</h2>
+      <slot></slot>
+      <form method="get" action="[[action]]" id="searchForm">
+        <template is="dom-repeat" items="[[hiddenInputs]]">
+          <input type="hidden" name="[[item.name]]" value="[[item.value]]">
+        </template>
+        <template is="dom-if" if="[[queryName]]">
+          <input type="hidden" name="[[queryName]]" value$="[[value]]">
+        </template>
+        <label class="screen-reader-text" for="q1">[[placeholder]]</label>
+        <div class="searchField">
+          <paper-input on-keydown="_checkForEnter" no-label-float class="search-field" id="q1" value="{{value}}" label="" placeholder="[[placeholder]]" tabindex="0"></paper-input>
+          <paper-button class="search" on-tap="submitSearch" alt="Search Virgo"><span>Search</span></paper-button>
+        </div>
+      </form>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `uvalib-simple-search-box`
+     * Search Box for UVA Library pages
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class UvalibSimpleSearchBox extends Polymer.Element {
+      static get is() { return 'uvalib-simple-search-box';}
+      static get properties() { return {
+        /* The Label read aloud to screen readers */
+        label: {
+          type: String,
+          value: "Search"
+        },
+        queryName: {
+          type: String,
+          value: null
+        },
+        action: {
+          type: String,
+          value: null
+        },
+        value: {
+          type: String,
+          notify: true
+        },
+        hiddenInputs: Array,
+        placeholder: {
+          type: String,
+          value: "Search terms here"
+        },
+        /** Set this to true when you want the links to be relative (when used in library.virginia.edu) **/
+        relativeLinks: {
+          type: Boolean,
+          value: false
+        }
+      }}
+
+      changeFocusToCatalogAdvanced() {
+        this.$.catalogAdv.focus();
+      }
+
+      submitSearch() {
+        if (this.action)
+          this.$.searchForm.submit();
+        else {
+          console.log('submitted');
+          this.dispatchEvent(new CustomEvent('submit', {detail: {value: this.value}}));
+        }
+      }
+      _checkForEnter(e) {
+          // check if 'enter' was pressed
+          if (e.keyCode === 13) {
+              this.submitSearch();
+          }
+      }
+
+    }
+
+    window.customElements.define(UvalibSimpleSearchBox.is, UvalibSimpleSearchBox);
+  </script>
+</dom-module>

@@ -6,6 +6,8 @@
     "uvalib-elements": "uvalib-components/uvalib-elements#master"
   },
   "resolutions": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "polymer": "^v2.0.0",
+    "webcomponentsjs": "^v1.1.0"
   }
 }

@@ -90,7 +90,18 @@
         }
       }}
       _mergehiddenInputs(_hiddenInputs, hiddenInputs){
-        return _hiddenInputs.concat(hiddenInputs);
+        if (!hiddenInputs && _hiddenInputs) return _hiddenInputs
+        else {
+          var merged = {};
+          _hiddenInputs.forEach(i => { merged[i.name] = i.value; });
+          hiddenInputs.forEach(i => { merged[i.name] = i.value; });
+          var result = [];
+          for (name in merged) {
+            result.push({name:name, value:merged[name]});
+          }
+          return result;
+        }
+        return [];
       }
       changeFocusToCatalogAdvanced() {
         this.$.catalogAdv.focus();

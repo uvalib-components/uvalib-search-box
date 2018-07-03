@@ -29,7 +29,7 @@
       </style>
     </custom-style>
 
-    <uvalib-simple-search-box placeholder="[[_searchVirgoPlaceholder]]" action="[[_virgoSearchUrl]]" value="{{_query}}" query-name="q" hidden-inputs='[{"name":"catalog_select","value":"all"}]'>
+    <uvalib-simple-search-box placeholder="[[placeholder]]" action="[[_virgoSearchUrl]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
       <nav>
         <ul>
           <li>
@@ -64,7 +64,7 @@
           value: "https://search.lib.virginia.edu/catalog"
         },
         _query: String,
-        _searchVirgoPlaceholder: {
+        placeholder: {
           type: String,
           value: "Search Virgo for books, articles, digital materials, and more."
         },
@@ -76,9 +76,22 @@
         _domain: {
           type: String,
           computed: "_makeLinkDomain(relativeLinks)"
+        },
+        _hiddenInputs: {
+          type: Array,
+          value: function(){
+            return [{"name":"catalog_select","value":"all"}];
+          }
+        },
+        hiddenInputs: Array,
+        _hi: {
+          type: Array,
+          computed: '_mergehiddenInputs(_hiddenInputs, hiddenInputs)'
         }
       }}
-
+      _mergehiddenInputs(_hiddenInputs, hiddenInputs){
+        return _hiddenInputs.concat(hiddenInputs);
+      }
       changeFocusToCatalogAdvanced() {
         this.$.catalogAdv.focus();
       }

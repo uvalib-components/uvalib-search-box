@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
@@ -14,32 +15,35 @@
     <link rel="import" href="../uvalib-simple-search-box.html">
 
     <custom-style>
-      <style is="custom-style" include="demo-pages-shared-styles">
-      .centered {
-        min-width: 90%;
-      }
-      #libra {
-        --uvalib-search-box-border: 5px solid red;
-        --uvalib-background-search: blue;
-      }
-      </style>
+        <style is="custom-style" include="demo-pages-shared-styles">
+            .centered {
+                min-width: 90%;
+            }
+            
+            #libra {
+                --uvalib-search-box-border: 5px solid red;
+                --uvalib-background-search: blue;
+            }
+        </style>
     </custom-style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="vertical-section-container centered">
-      <h3>Basic uvalib-search-box demo</h3>
-      <demo-snippet>
-        <template>
+        <h3>Basic uvalib-search-box demo</h3>
+        <demo-snippet>
+            <template>
           <uvalib-simple-search-box></uvalib-simple-search-box>
           <uvalib-search-box></uvalib-search-box>
           <uvalib-search-box id="libra"
               placeholder="Search Virgo for Libra Open Access Content"
               hidden-inputs='[{"name":"catalog_select","value":"none"},{"name":"f[source_facet][]","value":"Libra Repository"},{"name":"sort_key","value":"relevancy"}]'></uvalib-search-box>
         </template>
-      </demo-snippet>
+        </demo-snippet>
     </div>
-  </body>
-  <script>
-//    document.querySelector('')
-  </script>
+</body>
+<script>
+    //    document.querySelector('')
+</script>
+
 </html>

@@ -56,7 +56,7 @@
     <div role="search">
       <h2 id="searchStr" class="screen-reader-text">[[label]]</h2>
       <slot></slot>
-      <form method="get" action="[[action]]" id="searchForm" on-keydown="_checkForEnter">
+      <form method="get" action="[[action]]" id="searchForm">
         <template is="dom-repeat" items="[[hiddenInputs]]">
           <input type="hidden" name="[[item.name]]" value="[[item.value]]">
         </template>
@@ -116,12 +116,16 @@
                     }
                 }
             }
-
+            ready() {
+              super.ready();
+              this.shadowRoot.querySelector('form').addEventListener('keypress', this._checkForEnter.bind(this));
+            }
             changeFocusToCatalogAdvanced() {
                 this.$.catalogAdv.focus();
             }
 
             submitSearch() {
+              console.log(this.value)
                 if (this.action)
                     this.$.searchForm.submit();
                 else {
@@ -137,7 +141,10 @@
                 // check if 'enter' was pressed
                 if (e.keyCode === 13) {
                     e.preventDefault();
-                    this.submitSearch();
+                    var butt = this.shadowRoot.querySelector('paper-button')
+                    butt.focus();
+                    butt.click();
+//                    this.submitSearch();
                     return false;
                 }
             }

@@ -1,6 +1,5 @@
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../uvalib-theme/uvalib-theme.html">
-<link rel="import" href="../paper-input/paper-input.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 
@@ -57,19 +56,19 @@
     <div role="search">
       <h2 id="searchStr" class="screen-reader-text">[[label]]</h2>
       <slot></slot>
-      <form method="get" action="[[action]]" id="searchForm">
+      <form method="get" action="[[action]]" id="searchForm" on-keydown="_checkForEnter">
         <template is="dom-repeat" items="[[hiddenInputs]]">
           <input type="hidden" name="[[item.name]]" value="[[item.value]]">
         </template>
-    <template is="dom-if" if="[[queryName]]">
+        <template is="dom-if" if="[[queryName]]">
           <input type="hidden" name="[[queryName]]" value$="[[value]]">
         </template>
-    <label class="screen-reader-text" for="q1">[[placeholder]]</label>
-    <div class="search-group">
-        <input on-keydown="_checkForEnter" class="search-field" id="q1" value$="{{value}}" placeholder="[[placeholder]]" tabindex="0" />
-        <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo"><span>Search</span></paper-button>
-    </div>
-    </form>
+        <label class="screen-reader-text" for="q1">[[placeholder]]</label>
+        <div class="search-group">
+          <input class="search-field" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" />
+          <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo"><span>Search</span></paper-button>
+        </div>
+      </form>
     </div>
     </template>
 
@@ -137,7 +136,9 @@
             _checkForEnter(e) {
                 // check if 'enter' was pressed
                 if (e.keyCode === 13) {
+                    e.preventDefault();
                     this.submitSearch();
+                    return false;
                 }
             }
 

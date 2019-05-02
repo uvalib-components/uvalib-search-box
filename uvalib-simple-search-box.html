@@ -2,6 +2,7 @@
 <link rel="import" href="../uvalib-theme/uvalib-theme.html">
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../iron-icon/iron-icon.html">
 
 <dom-module id="uvalib-simple-search-box">
     <template>
@@ -40,7 +41,7 @@
         font-size: var(--uvalib-main-font-size-unit);
       }
 
-      .search-button {
+      .search-button, .reset-button {
         background-color: var(--uvalib-background-search, var(--uvalib-main-rotunda-orange));
         font-weight: 700;
         border-bottom-left-radius: 0;
@@ -48,6 +49,14 @@
         margin-left: 0;
         color: var(--uvalib-main-white);
         border: none;
+      }
+
+      .reset-button {
+        background-color: var(--uvalib-background-search-reset, black);
+      }
+
+      [hidden] {
+        display: none;
       }
 
       </style>
@@ -66,7 +75,8 @@
         <label class="screen-reader-text" for="q1">[[placeholder]]</label>
         <div class="search-group">
           <input class="search-field" name="q" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off" />
-          <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo"><span>Search</span></paper-button>
+          <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo" hidden$="[[_showResetButton(searchAgainOption, submitted, value)]]"><span>Search</span></paper-button>
+          <paper-button id="reset" class="reset-button" on-tap="resetSearch" alt="Reset Search" hidden$="[[!_showResetButton(searchAgainOption, submitted, value)]]"><span><iron-icon icon="times"></iron-icon></span></paper-button>
         </div>
       </form>
     </div>
@@ -104,6 +114,10 @@
                         type: String,
                         notify: true
                     },
+                    submitted: {
+                      type: Boolean,
+                      value: false
+                    },
                     hiddenInputs: Array,
                     placeholder: {
                         type: String,
@@ -113,6 +127,10 @@
                     relativeLinks: {
                         type: Boolean,
                         value: false
+                    },
+                    searchAgainOption: {
+                      type: Boolean,
+                      value: false
                     }
                 }
             }
@@ -125,7 +143,10 @@
             }
 
             submitSearch() {
-              console.log(this.value)
+                this.submitted = true;
+                if (this.value && this.searchAgainOption)
+                  this.shadowRoot.getElementById('reset').focus();
+
                 if (this.action)
                     this.$.searchForm.submit();
                 else {
@@ -137,6 +158,10 @@
                     }));
                 }
             }
+            resetSearch(){
+              this.value = "";
+              this.shadowRoot.getElementById('q1').focus();
+            }
             _checkForEnter(e) {
                 // check if 'enter' was pressed
                 if (e.keyCode === 13) {
@@ -147,6 +172,9 @@
 //                    this.submitSearch();
                     return false;
                 }
+            }
+            _showResetButton(searchAgainOption, submitted, value){
+              return searchAgainOption && (submitted && !!(value));
             }
 
         }

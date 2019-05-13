@@ -26,7 +26,7 @@
     </custom-style>
 
     <uvalib-simple-search-box placeholder="[[placeholder]]" action="[[_virgoSearchUrl]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
-      <nav>
+      <nav hidden$="[[noLinks]]">
         <ul>
           <li>
             <a id="catalogAdv" href="https://search.lib.virginia.edu/catalog/advanced" aria-labelledby="catalogAdv searchStr">Catalog Advanced <span aria-hidden="true">&gt;</span></a>
@@ -66,6 +66,10 @@
         },
         /** Set this to true when you want the links to be relative (when used in library.virginia.edu) **/
         relativeLinks: {
+          type: Boolean,
+          value: false
+        },
+        noLinks: {
           type: Boolean,
           value: false
         },

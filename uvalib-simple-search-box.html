@@ -112,7 +112,8 @@
                     },
                     value: {
                         type: String,
-                        notify: true
+                        notify: true,
+                        value:null
                     },
                     submitted: {
                       type: Boolean,
@@ -144,11 +145,11 @@
 
             submitSearch() {
                 this.submitted = true;
+                this.value = (this.value=="")? null:this.value;
                 if (this.value && this.searchAgainOption)
                   this.shadowRoot.getElementById('reset').focus();
-
                 if (this.action)
-                    this.$.searchForm.submit();
+                  this.$.searchForm.submit();
                 else {
                     console.log('submitted');
                     this.dispatchEvent(new CustomEvent('submit', {
@@ -159,7 +160,7 @@
                 }
             }
             resetSearch(){
-              this.value = "";
+              this.value = null;
               this.shadowRoot.getElementById('q1').focus();
             }
             _checkForEnter(e) {

@@ -1,0 +1,18 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="uvalib-form-style-vaadin-upload" theme-for="vaadin-upload">
+  <template>
+    <style>
+      [part~="upload-button"] {
+        background-color: var(--uvalib-main-white);
+        color: var(--uvalib-main-black);
+        border: 1px solid var(--uvalib-secondary-medium-gray);
+        border-radius: calc(var(--uvalib-main-font-size-unit)/4);
+      }
+      [part~="upload-button"]:hover, [part~="upload-button"]:focus {
+        background-color: var(--uvalib-secondary-medium-gray);
+        color: var(--uvalib-main-black);
+      }
+    </style>
+  </template>
+</dom-module>

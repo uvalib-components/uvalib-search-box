@@ -1,0 +1,131 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../vaadin-upload/vaadin-upload.html">
+<link rel="import" href="uvalib-field.html">
+<link rel="import" href="../uvalib-theme/uvalib-theme.html">
+<link rel="import" href="../uvalib-theme/uvalib-fonts.html">
+<link rel="import" href="uvalib-form-style.html">
+<link rel="import" href="uvalib-form-style-vaadin-upload.html">
+
+<dom-module id="uvalib-field-file">
+  <template>
+    <custom-style>
+      <style include="uvalib-theme uvalib-fonts uvalib-form-style">
+      </style>
+    </custom-style>
+
+    <div class="form-field">
+      <label class="field-label" for$="[[element.webform_key]]">[[element.title]]<template is="dom-if" if="[[_isRequired(element)]]"><span class="required" aria-hidden="true">*</span><span class="hidden">required</span></template></label>
+      <template is="dom-if" if="[[_hasDescription(element)]]">
+        <div class="descriptive-text" inner-h-t-m-l="[[element.description.markup]]"></div>
+      </template>
+      <vaadin-upload id="[[element.webform_key]]" form-data-name="[[element.name]]" max-files="1" files="{{files}}" no-auto max-file-size="[[_convertMegabyteToByte(element)]]" accept="[[_fileExtensions(element)]]" required$="[[_isRequired(element)]]" aria-required$="[[_ariaRequired(element)]]" aria-invalid$="{{_ariaInvalid}}" aria-describedby$="{{_ariaDescribedBy}}"></vaadin-upload>
+      <!-- input type$="[[element.type]]"  on-change="_changedValue"/ -->
+      <div id="{{_ariaDescribedBy}}" class="uvalib-icon-exclamation-circle validation-message" hidden$="{{_hideMessage}}"><span hidden="{{_syntaxInvalid}}">[[element.required_error]]</span> <span hidden$="{{!_syntaxInvalid}}">[[element.syntax_error]]</span></div>
+    </div>
+  </template>
+
+  <script>
+    /**
+     * `uvalib-field-file`
+     * Component that generates a file input field.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/uvalib-field-file.html
+     */
+    class UvalibFieldFile extends UvalibField(Polymer.Element) {
+      static get is() { return 'uvalib-field-file'; }
+      static get properties() {
+        return Object.assign(super.properties,{
+          acceptedFiles: {
+            type: String,
+            computed: "_fileExtensions(element)"
+          },
+          files: {
+            type: Array,
+            value: []
+          }
+        });
+      }
+
+      ready() {
+        this.addEventListener('file-reject',this._fileRejected);
+        this.addEventListener('files-changed',this._filesChanged);
+        this.addEventListener('max-files-reached-changed',this._maxFilesReachedChanged);
+        this.addEventListener('upload-aborted',this._uploadAborted);
+        this.addEventListener('upload-before',this._uploadBefore);
+        this.addEventListener('upload-error',this._uploadError);
+        this.addEventListener('upload-progress',this._uploadProgress);
+        this.addEventListener('upload-request',this._uploadRequest);
+        this.addEventListener('upload-response',this._uploadResponse);
+        this.addEventListener('upload-retry',this._uploadRetry);
+        this.addEventListener('upload-start',this._uploadStart);
+        this.addEventListener('upload-success',this._uploadSuccess);
+        super.ready();
+      }
+
+      /**
+       * Convert the megabyte value entered in Drupal to bytes which the vaadin-upload component expects.
+       */
+      _convertMegabyteToByte(el) {
+        return el.max_filesize * 1048576;
+      }
+
+      /**
+       * Create a comma separated list if file extensions to use in limiting what can be uploaded.
+       */
+      _fileExtensions(el) {
+        let list = (el.file_extensions && el.file_extensions.length > 0) ? '.'+el.file_extensions.replace(/ /g,',.') : '';
+        list += (list != '') ? ',' : '';
+        list += (el.accept && el.accept != '') ? el.accept : '';
+        return list;
+      }
+
+      _fileRejected(e) {
+        console.log('_fileRejected');
+      }
+      _filesChanged(e) {
+        console.log('_filesChanged');
+      }
+      _maxFilesReachedChanged(e) {
+        console.log('_maxFilesReachedChanged');
+      }
+      _uploadAborted(e) {
+        console.log('_uploadAborted');
+      }
+      _uploadBefore(e) {
+        console.log('_uploadBefore');
+      }
+      _uploadError(e) {
+        console.log('_uploadError');
+      }
+      _uploadProgress(e) {
+        console.log('_uploadProgress');
+      }
+      _uploadRequest(e) {
+        console.log('_uploadRequest');
+      }
+      _uploadResponse(e) {
+        console.log('_uploadResponse');
+      }
+      _uploadRetry(e) {
+        console.log('_uploadRetry');
+      }
+      _uploadStart(e) {
+        console.log('_uploadStart');
+      }
+      _uploadSuccess(e) {
+        console.log('_uploadSuccess');
+      }
+
+      /**
+       * Call this method when the form submission is executed.
+       */
+      uploadFile() {
+        this.shadowRoot.querySelector('#'+this.element.webform_key).uploadFiles(this.files);
+      }
+    }
+
+    window.customElements.define(UvalibFieldFile.is, UvalibFieldFile);
+  </script>
+</dom-module>

@@ -1,0 +1,319 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../uvalib-theme/uvalib-theme.html">
+<link rel="import" href="../uvalib-theme/uvalib-fonts.html">
+<link rel="import" href="uvalib-form-style.html">
+<link rel="import" href="uvalib-field.html">
+<link rel="import" href="uvalib-field-session-datetime.html">
+<link rel="import" href="uvalib-field-button.html">
+
+<dom-module id="uvalib-field-repeatable-session-datetime">
+  <template>
+    <custom-style>
+      <style include="uvalib-theme uvalib-fonts uvalib-form-style">
+        uvalib-field-session-datetime {
+          padding-bottom: 5px;
+        }
+        .session {
+          padding: 5px;
+          border-bottom: 1px dashed var(--uvalib-secondary-medium-gray);
+        }
+        input[type="button"] {
+          padding: 10px;
+          color: var(--uvalib-main-black);
+          border-radius: calc(var(--uvalib-main-font-size-unit)/4);
+        }
+        input[type="button"]:hover, input[type="button"]:focus {
+          background-color: var(--uvalib-secondary-medium-gray);
+          color: var(--uvalib-main-black);
+        }
+        input[type="button"]:disabled {
+          background-color: var(--uvalib-secondary-light-gray);
+          color: var(--uvalib-secondary-dark-gray);
+        }
+        .remove {
+          padding: 5px;
+        }
+        #addSession {
+          margin-top: 10px;
+        }
+      </style>
+    </custom-style>
+
+    <template is="dom-repeat" items="{{_values}}">
+      <div class="session" hidden="[[!_show(item.nth, _refresh)]]">
+        <uvalib-field-session-datetime id="[[_setSessionId(item.nth, _refresh)]]" value="{{item.session}}"
+          number-choices="[[numberChoices]]" num-choices-required="[[numChoicesRequired]]"
+          include-session-length="[[includeSessionLength]]"
+          session-label="[[_setSessionLabel(item.nth, _refresh)]]" date-required="[[dateRequired]]"
+          hide-start-time="[[hideStartTime]]" start-time-required="[[startTimeRequired]]"
+          hide-end-time="[[hideEndTime]]" end-time-required="[[endTimeRequired]]"
+          minimum-days-out="[[minimumDaysOut]]" minute-step="[[minuteStep]]">
+        </uvalib-field-session-datetime>
+        <input hidden="[[!_showRemove(item.nth, _refresh)]]" class="remove" type="button" disabled="[[!_canRemove(item.nth, _refresh)]]"
+          id="remove_[[item.nth]]" name="remove_[[item.nth]]" nth="[[item.nth]]" value="Remove session" on-click="_removeSession"/>
+      </div>
+    </template>
+    <input type="button" disabled="[[_disableAdd(_occurrenceCount, _refresh)]]" id="addSession" name="addSession" value="Add session" on-click="_addSession"/>
+  </template>
+
+  <script>
+    /**
+     * `uvalib-field-repeatable-session-datetime`
+     * Component that generates a field with a repeatable number of instances that are added via a button.
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/uvalib-field-repeatable-session-datetime.html
+     */
+    class UvalibFieldRepeatableSessionDatetime extends UvalibField(Polymer.Element) {
+      static get is() { return 'uvalib-field-repeatable-session-datetime'; }
+      static get properties() {
+        return Object.assign(super.properties,{
+          /**
+           * Values entered for the repeatable content.
+           */
+          value: {
+            type: Object,
+            value: function() {return {maximumOccurrences: "", data: []};},
+            reflectToAttribute: true,
+            notify: true,
+            observer: '_validateValue'
+          },
+          /**
+           * used for template dom-repeat of the number of sessions displayed and their values input
+           */
+          _values: {
+            type: Array,
+            value: []
+          },
+          /**
+           * maximum number of sessions that can be displayed
+           */
+          maximumOccurrences: {
+            type: Number,
+            value: 2
+          },
+          /**
+           * header height to take into account when focusing a session input field
+           */
+          headerHeight: {
+            type: Number,
+            value: 50
+          },
+          /**
+           * current number of occurrences based on how many times the add feature has been used; starts at 0, not 1
+           */
+          _occurrenceCount: {
+            type: Number,
+            value: 0
+          },
+          /**
+           * the label to be used when displaying the session group of date times inputs and optional length
+           */
+          sessionLabel: {
+            type: String,
+            value: "Session Date/Time"
+          },
+          /**
+           * indicates if a session length of time input field should be displayed before the date time inputs.
+           */
+          includeSessionLength: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * number of choices to display for a session
+           */
+          numberChoices: {
+            type: Number,
+            value: 2
+          },
+          /**
+           * number of date/times entered for a session that will require a value
+           */
+          numChoicesRequired: {
+            type: Number,
+            value: 1
+          },
+          /**
+           * indicates that the date input is required
+           */
+          dateRequired: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * indicates the start time input should not be displayed
+           */
+          hideStartTime: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * indicates the start time input is required
+           */
+          startTimeRequired: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * indicates the end time input should not be displayed
+           */
+          hideEndTime: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * indicates the end time input is required
+           */
+          endTimeRequired: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * the number of days from today that should be highlighted on the pop-up calendar
+           */
+          minimumDaysOut: {
+            type: Number,
+            value: 1
+          },
+          /**
+           * minute time intervals allowed to be entered, e.g. 30 would indicate 12:00, 12:30, 1:00, 1:30, etc. are allowed inputs - default is 1 minute
+           */
+          minuteStep: {
+            type: Number,
+            value: 1
+          },
+          /**
+           * used to signal that something has changed in the form based on user interaction
+           */
+          _refresh: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * delay in milliseconds before setting focus for session content after add or remove
+           */
+          _focusDelay: {
+            type: Number,
+            value: 250
+          }
+        });
+      }
+
+      ready() {
+        this.addEventListener('session-change',this._sessionChanged);
+        this.addEventListener('session-added',this._setAddSessionFocus);
+        this.addEventListener('session-removed',this._setRemoveSessionFocus);
+        super.ready();
+        this._values = new Array();
+        for (var i=0; i < this.maximumOccurrences; i++) {
+          this._values[i] = { nth: i+1, show: false, session: {}};
+        }
+        this._values[0].show = true;
+      }
+
+      _addSession(e) {
+        this._occurrenceCount += 1;
+        if (this._occurrenceCount < this.maximumOccurrences) {
+          this._values[this._occurrenceCount].show = true;
+        }
+        this._refresh = !this._refresh;
+        this.dispatchEvent(new CustomEvent('session-added', {detail: {count: this._occurrenceCount}}));
+      }
+
+      _canRemove(nth, refresh) {
+        return (this._occurrenceCount >= 1 && nth <= this.maximumOccurrences);
+      }
+
+      _disableAdd(count, refresh) {
+        return ((this._occurrenceCount + 1) == this.maximumOccurrences) ? true : false;
+      }
+
+      /**
+       * Remove the appropriate entry from the array and refresh the array to trigger a refresh???
+       */
+      _removeSession(e) {
+        this._occurrenceCount -= 1;
+        var path = e.path || (e.composedPath && e.composedPath());
+        var nth = path[0].nth;
+        var copy = this._values.slice(0);
+        var removed = copy.splice(nth-1,1);
+        for (var i=0; i<this.maximumOccurrences-1; i++) {
+          copy[i].nth = i+1;
+        }
+        // put the removed entry to the end of the array and hide it
+        removed[0].nth = this.maximumOccurrences;
+        removed[0].show = false;
+        removed[0].session = {sessionLength: '', sessionDateTime: []};
+        Array.prototype.push.apply(copy,removed);
+        // update the session values array
+        this.set('_values', copy.slice(0));
+        this._refresh = !this._refresh;
+        this.dispatchEvent(new CustomEvent('session-removed', {detail: {nth: nth, count: this._occurrenceCount}}));
+      }
+
+      _sessionChanged(e) {
+        for (var i=0; i<this.maximumOccurrences; i++) {
+          this.value.data[i] = this._values[i];
+        }
+      }
+
+      _setSessionId(nth, refresh) {
+        return 'sessionDatetime_'+nth;
+      }
+
+      _setSessionLabel(nth, refresh) {
+        return 'Session '+nth+' Date/Time Preferences';
+      }
+
+      _setAddSessionFocus(e) {
+        var node = this;
+        var nth = e.detail.count + 1;
+        setTimeout(function() {
+          node.shadowRoot.querySelector('#sessionDatetime_'+nth).scrollIntoView();
+          window.scroll(0,window.scrollY-parseInt(this.headerHeight)-parseInt(node.shadowRoot.querySelector('#sessionDatetime_'+nth).offsetHeight)-5);
+          node.shadowRoot.querySelector('#sessionDatetime_'+nth).focus();
+        }, this._focusDelay);
+      }
+
+      _setRemoveSessionFocus(e) {
+        var focused = '';
+        // if just one session left showing
+        if (e.detail.count == 0) {
+          focused = '#sessionDatetime_1';
+        } else if (e.detail.nth <= (e.detail.count+1)) {
+          focused = '#sessionDatetime_'+e.detail.nth;
+        } else if (e.detail.nth == (e.detail.count+2)){
+          focused = '#addSession';
+        }
+        var node = this;
+        setTimeout(function() {
+          node.shadowRoot.querySelector(focused).scrollIntoView();
+          window.scroll(0,window.scrollY-parseInt(this.headerHeight)-parseInt(node.shadowRoot.querySelector(focused).offsetHeight)-5);
+          node.shadowRoot.querySelector(focused).focus();
+        }, this._focusDelay);
+      }
+
+      _show(nth, refresh) {
+        return this._values[nth-1].show;
+      }
+
+      _showRemove(nth, refresh) {
+        return (nth > 0 && this._occurrenceCount >= 1);
+      }
+
+      _validateValue() {
+        if (typeof this.value === 'object' && this.value !== null) {
+          if (!this.value.hasOwnProperty('maximumOccurrences')) this.set('value.maximumOccurrences', "");
+          if (!this.value.hasOwnProperty('data')) this.set('value.data', []);
+        } else {
+          this.set('value', {maximumOccurrences: "", data: []});
+        }
+      }
+
+    }
+
+    window.customElements.define(UvalibFieldRepeatableSessionDatetime.is, UvalibFieldRepeatableSessionDatetime);
+  </script>
+</dom-module>

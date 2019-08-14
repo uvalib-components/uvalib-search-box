@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>uva-library demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
+    <link rel="import" href="../../polymer/lib/elements/dom-repeat.html">
+    <link rel="import" href="../uva-library.html">
+    <link rel="import" href="../uva-results-helper.html">
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+
+      <h3>Basic uva-library demo for learning resources</h3>
+      <demo-snippet>
+        <template>
+
+          <dom-bind>
+            <template>
+              <uva-library path="learning" firebase last-response="{{response}}"></uva-library>
+              <uva-results-helper input="[[response]]" output="{{results}}" sort-by="[[sortby]]" search-query="[[searchQuery]]" filter-by="category" filter="{{filterby}}"></uva-results-helper>
+              <label for="sortby">Sort by:</label>
+              <select id="sortby" value="{{sortby::change}}">
+                <option value="">Choose One</option>
+                <option>title</option>
+                <option>changed</option>
+              </select><br />
+              <label for="filterby">Filter by Category:</label>
+              <select id="filterby" value="{{filterby::change}}">
+                <option value="">Choose One</option>
+                <option>teaching</option>
+                <option>beyond-basics</option>
+              </select><br />
+              <input placeholder="search terms go here" value="{{searchQuery::change}}" />
+              <ul>
+                <dom-repeat items="[[results]]" as="result">
+                  <template>
+                    <li><strong>[[result.item.title]]</strong> <em>([[result.item.category]])</em><br />[[result.item.changed]]</li>
+                  </template>
+                </dom-repeat>
+              </ul>
+            </template>
+          </dom-bind>
+
+        </template>
+      </demo-snippet>
+
+    </div>
+  </body>
+</html>

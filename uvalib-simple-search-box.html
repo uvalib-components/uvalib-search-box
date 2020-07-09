@@ -69,12 +69,10 @@
         <template is="dom-repeat" items="[[hiddenInputs]]">
           <input type="hidden" name="[[item.name]]" value="[[item.value]]">
         </template>
-        <template is="dom-if" if="[[queryName]]">
-          <input type="hidden" name="[[queryName]]" value$="[[value]]">
-        </template>
         <label class="screen-reader-text" for="q1">[[placeholder]]</label>
         <div class="search-group">
-          <input class="search-field" name="q" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off" />
+          <input class="search-field" name="[[queryName]]" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off">
+<!--          <input class="search-field" name="q" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off" /> -->
           <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo" hidden$="[[_showResetButton(searchAgainOption, submitted, value)]]"><span>Search</span></paper-button>
           <paper-button id="reset" class="reset-button" on-tap="resetSearch" alt="Reset Search" hidden$="[[!_showResetButton(searchAgainOption, submitted, value)]]"><span><iron-icon icon="times"></iron-icon></span></paper-button>
         </div>
@@ -104,7 +102,7 @@
                     },
                     queryName: {
                         type: String,
-                        value: null
+                        value: "q"
                     },
                     action: {
                         type: String,

@@ -25,7 +25,7 @@
       </style>
     </custom-style>
 
-    <uvalib-simple-search-box placeholder="[[placeholder]]" action="[[_virgoSearchUrl]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
+    <uvalib-simple-search-box placeholder="[[placeholder]]" action="[[_getSearchURL(v4,_virgoSearchUrl,_virgo4SearchUrl)]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
       <nav hidden$="[[noLinks]]">
         <ul>
           <li>
@@ -55,9 +55,17 @@
     class UvalibSearchBox extends Polymer.Element {
       static get is() { return 'uvalib-search-box';}
       static get properties() { return {
+        v4: {
+          type: Boolean,
+          value: false
+        },
         _virgoSearchUrl: {
           type: String,
           value: "https://search.lib.virginia.edu/catalog"
+        },
+        _virgo4SearchUrl: {
+          type: String,
+          value: "https://v4.lib.virginia.edu/search"
         },
         _query: String,
         placeholder: {
@@ -83,14 +91,21 @@
             return [{"name":"catalog_select","value":"all"}];
           }
         },
+        _hiddenInputsV4: {
+          type: Array,
+          value: function(){
+            return [{"name":"mode","value":"basic"},{"name":"scope","value":"all"}];
+          }
+        },
         hiddenInputs: Array,
         _hi: {
           type: Array,
-          computed: '_mergehiddenInputs(_hiddenInputs, hiddenInputs)'
+          computed: '_mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4)'
         }
       }}
-      _mergehiddenInputs(_hiddenInputs, hiddenInputs){
-        if (!hiddenInputs && _hiddenInputs) return _hiddenInputs
+      _mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4){
+        if (!hiddenInputs && !v4 && _hiddenInputs) return _hiddenInputs;
+        else if (!hiddenInputs && v4 && _hiddenInputsV4) return _hiddenInputsV4;
         else {
           var merged = {};
           _hiddenInputs.forEach(i => { merged[i.name] = i.value; });
@@ -118,6 +133,9 @@
       }
       _makeLinkDomain(relLinks) {
         return (relLinks)? "":"https://www.library.virginia.edu";
+      }
+      _getSearchURL(){
+        return (this.v4)? this._virgo4SearchUrl:this._virgoSearchUrl;
       }
     }
 

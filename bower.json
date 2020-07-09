@@ -16,6 +16,7 @@
     "iron-flex-layout": "^2.0.3",
     "paper-styles": "^2.0.0",
     "iron-resizable-behavior": "^v2.0.0",
-    "iron-a11y-keys-behavior": "^v2.0.0"
+    "iron-a11y-keys-behavior": "^v2.0.0",
+    "uva-accordion": "2.0.9"
   }
 }

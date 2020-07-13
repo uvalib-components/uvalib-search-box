@@ -71,7 +71,8 @@
         </template>
         <label class="screen-reader-text" for="q1">[[placeholder]]</label>
         <div class="search-group">
-          <input class="search-field" name="[[queryName]]" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off">
+          <input type="hidden" name="[[queryName]]" value="[[processQueryValue(value)]]">
+          <input class="search-field" name="searchproxy" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off">
 <!--          <input class="search-field" name="q" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off" /> -->
           <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo" hidden$="[[_showResetButton(searchAgainOption, submitted, value)]]"><span>Search</span></paper-button>
           <paper-button id="reset" class="reset-button" on-tap="resetSearch" alt="Reset Search" hidden$="[[!_showResetButton(searchAgainOption, submitted, value)]]"><span><iron-icon icon="times"></iron-icon></span></paper-button>
@@ -141,14 +142,20 @@
                 this.$.catalogAdv.focus();
             }
 
+            processQueryValue(value) {
+              return value;
+            }
+
             submitSearch() {
                 this.submitted = true;
                 this.value = (this.value=="")? null:this.value;
                 if (this.value && this.searchAgainOption)
                   this.shadowRoot.getElementById('reset').focus();
-                if (this.action)
+                if (this.action) {
+                  this.$.q1.setAttribute("disabled", "");
                   this.$.searchForm.submit();
-                else {
+                  this.$.q1.setAttribute("disabled", null);
+                } else {
                     console.log('submitted');
                     this.dispatchEvent(new CustomEvent('submit', {
                         detail: {
@@ -174,7 +181,6 @@
                     var butt = this.shadowRoot.querySelector('paper-button')
                     butt.focus();
                     butt.click();
-//                    this.submitSearch();
                     return false;
                 }
             }

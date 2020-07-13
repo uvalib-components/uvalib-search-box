@@ -25,7 +25,7 @@
       </style>
     </custom-style>
 
-    <uvalib-simple-search-box placeholder="[[placeholder]]" action="[[_getSearchURL(v4,_virgoSearchUrl,_virgo4SearchUrl)]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
+    <uvalib-simple-search-box id="simplesearch" placeholder="[[placeholder]]" action="[[_getSearchURL(v4,_virgoSearchUrl,_virgo4SearchUrl)]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
       <nav hidden$="[[noLinks]]">
         <ul>
           <li>
@@ -103,6 +103,12 @@
           computed: '_mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4)'
         }
       }}
+      ready(){
+        super.ready();
+        this.$.simplesearch.processQueryValue = (value)=>{
+            return this.v4? "keyword: {"+value.replace(/[{}]/g,'')+"}":value;          
+        }
+      }
       _mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4){
         if (!hiddenInputs && !v4 && _hiddenInputs) return _hiddenInputs;
         else if (!hiddenInputs && v4 && _hiddenInputsV4) return _hiddenInputsV4;

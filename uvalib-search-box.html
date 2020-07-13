@@ -57,7 +57,7 @@
       static get properties() { return {
         v4: {
           type: Boolean,
-          value: false
+          value: true
         },
         _virgoSearchUrl: {
           type: String,
@@ -106,7 +106,7 @@
       ready(){
         super.ready();
         this.$.simplesearch.processQueryValue = (value)=>{
-            return this.v4? "keyword: {"+value.replace(/[{}]/g,'')+"}":value;          
+            return this.v4? "keyword: {"+value.replace(/[{}]/g,'')+"}":value;
         }
       }
       _mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4){

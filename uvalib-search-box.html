@@ -88,7 +88,7 @@
             return [{"name":"catalog_select","value":"all"}];
           }
         },
-        _hiddenInputsV4: {
+        hiddenInputsV4: {
           type: Array,
           value: function(){
             return [{"name":"mode","value":"basic"},{"name":"scope","value":"all"}];
@@ -97,18 +97,23 @@
         hiddenInputs: Array,
         _hi: {
           type: Array,
-          computed: '_mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4)'
+          computed: '_mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, hiddenInputsV4)'
+        },
+        v4QueryWrap: {
+          type: String,
+          value: "keyword: {***}"
         }
       }}
       ready(){
         super.ready();
         this.$.simplesearch.processQueryValue = (value)=>{
-            return this.v4? "keyword: {"+value.replace(/[{}]/g,'')+"}":value;
+            const keyword = value.replace(/[{}]/g,'');
+            return this.v4? this.v4QueryWrap.replace("***",keyword):value;
         }
       }
-      _mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, _hiddenInputsV4){
+      _mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, hiddenInputsV4){
         if (!hiddenInputs && !v4 && _hiddenInputs) return _hiddenInputs;
-        else if (!hiddenInputs && v4 && _hiddenInputsV4) return _hiddenInputsV4;
+        else if (!hiddenInputs && v4 && hiddenInputsV4) return hiddenInputsV4;
         else {
           var merged = {};
           _hiddenInputs.forEach(i => { merged[i.name] = i.value; });

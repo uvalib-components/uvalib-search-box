@@ -107,9 +107,11 @@
       ready(){
         super.ready();
         this.$.simplesearch.processQueryValue = (value)=>{
+            if (value == null) value = "";
             const keyword = value.replace(/[{}]/g,'');
             return this.v4? this.v4QueryWrap.replace("***",keyword):value;
         }
+        this.$.simplesearch.bindQueryValue();
       }
       _mergehiddenInputs(_hiddenInputs, hiddenInputs, v4, hiddenInputsV4){
         if (!hiddenInputs && !v4 && _hiddenInputs) return _hiddenInputs;

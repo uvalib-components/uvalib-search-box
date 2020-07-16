@@ -71,7 +71,7 @@
         </template>
         <label class="screen-reader-text" for="q1">[[placeholder]]</label>
         <div class="search-group">
-          <input type="hidden" name="[[queryName]]" value="[[processQueryValue(value)]]">
+          <input type="hidden" name="[[queryName]]" value="[[_queryValue]]">
           <input class="search-field" name="searchproxy" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off">
 <!--          <input class="search-field" name="q" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off" /> -->
           <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo" hidden$="[[_showResetButton(searchAgainOption, submitted, value)]]"><span>Search</span></paper-button>
@@ -109,10 +109,15 @@
                         type: String,
                         value: null
                     },
+                    _queryValue: {
+                      type: String,
+                      value:""
+                    },
                     value: {
                         type: String,
                         notify: true,
-                        value:null
+                        value: null,
+                        observer: 'bindQueryValue'
                     },
                     submitted: {
                       type: Boolean,
@@ -140,6 +145,10 @@
             }
             changeFocusToCatalogAdvanced() {
                 this.$.catalogAdv.focus();
+            }
+
+            bindQueryValue(){
+              this._queryValue = this.processQueryValue(this.value);
             }
 
             processQueryValue(value) {

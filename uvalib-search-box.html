@@ -25,7 +25,7 @@
       </style>
     </custom-style>
 
-    <uvalib-simple-search-box id="simplesearch" placeholder="[[placeholder]]" action="[[_getSearchURL(v4,_virgoSearchUrl,_virgo4SearchUrl)]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
+    <uvalib-simple-search-box empty-value="*" id="simplesearch" placeholder="[[placeholder]]" action="[[_getSearchURL(v4,_virgoSearchUrl,_virgo4SearchUrl)]]" value="{{_query}}" query-name="q" hidden-inputs='[[_hi]]'>
       <nav hidden$="[[noLinks]]">
         <ul>
           <li>
@@ -62,7 +62,7 @@
         },
         _virgo4SearchUrl: {
           type: String,
-          value: "https://v4.lib.virginia.edu/search"
+          value: "https://search.lib.virginia.edu/search"
         },
         _query: String,
         placeholder: {

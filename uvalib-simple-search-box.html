@@ -101,6 +101,10 @@
                         type: String,
                         value: "Search"
                     },
+                    emptyValue: {
+                      type:String,
+                      value:null
+                    },
                     queryName: {
                         type: String,
                         value: "q"
@@ -157,7 +161,7 @@
 
             submitSearch() {
                 this.submitted = true;
-                this.value = (this.value=="")? null:this.value;
+                this.value = (this.value==""||this.value==null)? this.emptyValue:this.value;
                 if (this.value && this.searchAgainOption)
                   this.shadowRoot.getElementById('reset').focus();
                 if (this.action) {

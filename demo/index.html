@@ -47,7 +47,10 @@
                   <uvalib-search-box v4></uvalib-search-box>
 
                   <h2>v4 Libra Version</h2>
-                  <uvalib-search-box v4 hidden-inputs-v4='[{"name":"mode","value":"advanced"}]' v4-query-wrap='filter: {source_f:"Libra Repository"} AND keyword: {***}'></uvalib-search-box>
+                  <uvalib-search-box v4 id="libra" no-links 
+                    placeholder="Search Virgo for Libra Open Access Content" 
+                    hidden-inputs-v4="[{&quot;name&quot;:&quot;mode&quot;,&quot;value&quot;:&quot;advanced&quot;}]" 
+                    v4-query-wrap="keyword: {***} AND filter: {(FilterCollection:&quot;Libra Repository&quot;)}"></uvalib-search-box>
                 </template>
               </dom-bind>
             </template>

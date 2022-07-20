@@ -75,7 +75,7 @@
           <input type="hidden" name="[[queryName]]" value="[[_queryValue]]">
           <input class="search-field" name="searchproxy" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off">
 <!--          <input class="search-field" name="q" id="q1" value="{{value::change}}" placeholder="[[placeholder]]" tabindex="0" autocomplete="off" /> -->
-          <paper-button class="search-button" on-tap="submitSearch" alt="Search Virgo" hidden$="[[_showResetButton(searchAgainOption, submitted, value)]]"><span>Search</span></paper-button>
+          <paper-button id="submit" class="search-button" alt="Search Virgo" hidden$="[[_showResetButton(searchAgainOption, submitted, value)]]"><span>Search</span></paper-button>
           <paper-button id="reset" class="reset-button" on-tap="resetSearch" alt="Reset Search" hidden$="[[!_showResetButton(searchAgainOption, submitted, value)]]"><span><iron-icon icon="times"></iron-icon></span></paper-button>
         </div>
       </form>
@@ -147,6 +147,7 @@
             ready() {
               super.ready();
               this.shadowRoot.querySelector('form').addEventListener('keypress', this._checkForEnter.bind(this));
+              this.shadowRoot.querySelector('#submit').addEventListener('tap', function(e){this.submitSearch()}.bind(this));
             }
             changeFocusToCatalogAdvanced() {
                 this.$.catalogAdv.focus();
@@ -162,13 +163,17 @@
 
             submitSearch() {
                 this.submitted = true;
-                this.value = (this.value==""||this.value==null)? this.emptyValue:this.value;
+                this.value = (this.value==""||this.value==null)? 
+                  (this.shadowRoot.querySelector('#q1').value)?
+                    this.shadowRoot.querySelector('#q1').value:
+                    this.emptyValue:
+                  this.value;
                 if (this.value && this.searchAgainOption)
                   this.shadowRoot.getElementById('reset').focus();
                 if (this.action) {
                   this.$.q1.setAttribute("disabled", "");
                   this.$.searchForm.submit();
-                  this.$.q1.setAttribute("disabled", null);
+                  this.$.q1.removeAttribute("disabled");
                 } else {
                     console.log('submitted');
                     this.dispatchEvent(new CustomEvent('submit', {
